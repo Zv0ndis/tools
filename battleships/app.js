@@ -58,9 +58,11 @@ function cells(s) {
   return out;
 }
 
+// Inside the board and not touching another ship, not even at a corner (the server checks the same).
 function fits(s, ships) {
   const taken = new Set(ships.flatMap((o) => cells(o).map(([x, y]) => y * SIZE + x)));
-  return cells(s).every(([x, y]) => x >= 0 && y >= 0 && x < SIZE && y < SIZE && !taken.has(y * SIZE + x));
+  const near = (x, y) => [-1, 0, 1].some((dy) => [-1, 0, 1].some((dx) => taken.has((y + dy) * SIZE + x + dx) && x + dx >= 0 && x + dx < SIZE));
+  return cells(s).every(([x, y]) => x >= 0 && y >= 0 && x < SIZE && y < SIZE && !near(x, y));
 }
 
 function randomFleet() {
@@ -252,7 +254,7 @@ function game(id) {
     if (!placing()) return;
     if (placed.length >= FLEET.length) return toast("All ships placed. Press Ready.");
     const s = { x, y, len: FLEET[placed.length], dir };
-    if (!fits(s, placed)) return toast("That ship does not fit there.");
+    if (!fits(s, placed)) return toast("That ship does not fit there. Ships must not touch, not even at a corner.");
     placed.push(s);
     renderDock();
     paintMine();
@@ -469,7 +471,9 @@ function game(id) {
     } else if (v.phase === "playing") {
       const mine = v.turn === v.seat;
       const prev = ls ? (ls.by === v.seat ? `Your shot at ${shotWords(ls)}. ` : `Enemy shot at ${shotWords(ls)}. `) : "";
-      banner(mine ? "Your turn" : "Enemy is aiming", prev + (mine ? "Pick a target in enemy waters." : "Hold steady."), mine ? "mine" : "theirs");
+      const again = ls && ls.hit; // a hit earns the shooter another shot
+      const next = mine ? (again ? "A hit. Fire again." : "Pick a target in enemy waters.") : again ? "They hit, so they fire again." : "Hold steady.";
+      banner(mine ? "Your turn" : "Enemy is aiming", prev + next, mine ? "mine" : "theirs");
       document.title = (mine ? "Your turn" : "Their turn") + " · Battleships";
     } else if (v.phase === "over") {
       const won = v.winner === v.seat;
