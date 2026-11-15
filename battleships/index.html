@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ships.zvondis.dev wss://ships.zvondis.dev; img-src 'self' data:; style-src 'self'; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="color-scheme" content="light">
+  <title>Battleships</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="zv-mark" href="https://zvondis.dev">Zvondis</a>
+    <a class="brand" href="./">Battleships</a>
+    <p class="status" id="status" aria-live="polite"></p>
+  </header>
+
+  <main id="main">
+    <!-- Landing -->
+    <section id="landing" class="screen" hidden>
+      <div class="landing-card">
+        <h1>Sink the enemy fleet <span class="h1-light">before they sink yours.</span></h1>
+        <p class="lede">Open a game, send the link to a friend, and take turns firing across a 10&times;10 chart. Ships stay hidden on the server, so nobody can peek.</p>
+        <button class="btn btn-primary" id="new-game" type="button">New game</button>
+        <ul class="fleet-legend" aria-label="Fleet">
+          <li><span class="hull" data-len="5"></span><span class="dock-name">Carrier</span><span class="dock-meta">5 cells</span></li>
+          <li><span class="hull" data-len="4"></span><span class="dock-name">Battleship</span><span class="dock-meta">4 cells</span></li>
+          <li><span class="hull" data-len="3"></span><span class="dock-name">Cruiser</span><span class="dock-meta">3 cells</span></li>
+          <li><span class="hull" data-len="3"></span><span class="dock-name">Submarine</span><span class="dock-meta">3 cells</span></li>
+          <li><span class="hull" data-len="2"></span><span class="dock-name">Destroyer</span><span class="dock-meta">2 cells</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Message screens: not found / room full / connecting -->
+    <section id="notice" class="screen" hidden>
+      <div class="landing-card">
+        <p class="visually-hidden" id="notice-eyebrow"></p>
+        <h1 id="notice-title"></h1>
+        <p class="lede" id="notice-text"></p>
+        <a class="btn btn-primary" href="./" id="notice-home">Start a new game</a>
+      </div>
+    </section>
+
+    <!-- Waiting for opponent -->
+    <section id="waiting" class="screen" hidden>
+      <div class="landing-card">
+        <h1>Waiting for your opponent</h1>
+        <p class="lede">Send this link to the person you want to play. The game starts as soon as they open it.</p>
+        <div class="share">
+          <label class="visually-hidden" for="share-url">Game link</label>
+          <input id="share-url" class="share-url" type="text" readonly>
+          <button class="btn btn-primary" id="copy" type="button">Copy link</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game: placing / playing / over -->
+    <section id="game" class="screen" hidden>
+      <div class="banner" id="banner" aria-live="polite">
+        <p class="banner-title" id="banner-title"></p>
+        <p class="banner-text" id="banner-text"></p>
+        <div class="banner-actions" id="banner-actions"><button type="button" class="btn btn-primary" id="rematch" hidden>Rematch</button></div>
+      </div>
+
+      <div class="boards">
+        <figure class="chart" id="my-chart">
+          <figcaption><span>Your fleet</span><span class="tally" id="my-tally"></span></figcaption>
+          <div class="board" id="my-board" role="group" aria-label="Your fleet"></div>
+        </figure>
+
+        <figure class="chart" id="enemy-chart">
+          <figcaption><span>Enemy waters</span><span class="tally" id="enemy-tally"></span></figcaption>
+          <div class="board" id="enemy-board" role="group" aria-label="Enemy waters"></div>
+        </figure>
+
+        <aside class="dock" id="dock">
+          <h2 class="dock-title">Fleet roster</h2>
+          <p class="dock-hint" id="dock-hint"></p>
+          <ol class="dock-list" id="dock-list"></ol>
+          <div class="dock-actions">
+            <button class="btn" id="rotate" type="button" aria-keyshortcuts="R"><span class="btn-label">Rotate</span> <kbd>R</kbd></button>
+            <button class="btn" id="undo" type="button">Undo</button>
+            <button class="btn" id="random" type="button">Random</button>
+          </div>
+          <button class="btn btn-primary btn-wide" id="ready" type="button">Ready</button>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="alert" hidden></div>
+  <p class="visually-hidden" id="announcer" aria-live="assertive"></p>
+</body>
+</html>
