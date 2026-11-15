@@ -1,4 +1,9 @@
-/* Minimal Swiss style shared by the tools pages: one grotesque (Archivo), one ink, hairline rules. */
+/* =========================================================================
+   tools.zvondis.dev stylesheet, taken from the zvondis.dev design system.
+   One grotesque (Archivo) carries everything through weight; one ink on paper;
+   hairline rules, no cards, no shadows. The accent is only the focus ring.
+   How to use the classes: README.md, section "Stylesheet".
+   ========================================================================= */
 :root {
     --paper: #fafaf9;
     --ink: #0c0c0d;
@@ -12,6 +17,7 @@
     --space-band: 64px;
     --radius: 2px;
     --target: 44px;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (width >= 600px) {
     :root {
@@ -273,7 +279,13 @@ h1 {
     display: grid;
     gap: 20px;
 }
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
 input[type="number"],
+select,
 textarea {
     width: 100%;
     min-height: var(--target);
@@ -286,11 +298,13 @@ textarea {
     line-height: 1.5;
     resize: vertical;
 }
-input[type="number"]:hover,
+input:not([type="file"], [type="radio"], [type="checkbox"]):hover,
+select:hover,
 textarea:hover {
     border-color: var(--ink);
 }
-input[type="number"]:focus-visible,
+input:not([type="file"], [type="radio"], [type="checkbox"]):focus-visible,
+select:focus-visible,
 textarea:focus-visible {
     border-color: var(--ink);
     outline-offset: 0;
@@ -333,6 +347,33 @@ input[type="file"]::file-selector-button:hover {
 .button:hover {
     background: var(--mute);
 }
+/* Second action next to a .button: same size, outlined. */
+.button-outline {
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+}
+.button-outline:hover {
+    background: var(--ink);
+    color: var(--paper);
+}
+/* Text call to action: bold, underlined, 44px hit area. */
+.text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target);
+    padding: 0;
+    border: 0;
+    background: none;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
+}
+/* Errors are written words in bold ink, never colour alone. */
+.error {
+    font-weight: 700;
+}
 .actions {
     display: flex;
     flex-wrap: wrap;
@@ -344,7 +385,7 @@ input[type="file"]::file-selector-button:hover {
     font-size: 0.9375rem;
 }
 
-/* Results */
+/* Injection check results (.ic-*) */
 .ic-file + .ic-file {
     margin-top: 32px;
 }
@@ -372,8 +413,9 @@ input[type="file"]::file-selector-button:hover {
     overflow-wrap: anywhere;
 }
 
-/* Job Pay */
-input[type="radio"] {
+/* Radios, checkboxes and the Job Pay rows (.contract, .radio, .pay-row) */
+input[type="radio"],
+input[type="checkbox"] {
     width: 20px;
     height: 20px;
     margin: 0;
