@@ -2,8 +2,8 @@
 // then the browser. Fills [data-t] from the page's copy plus the shared rail strings.
 
 const RAIL = {
-    cs: { navTools: "Nástroje", navShips: "Lodě", navAria: "Weby" },
-    en: { navTools: "Tools", navShips: "Battleships", navAria: "Sites" },
+    cs: { navTools: "Nástroje", navShips: "Lodě", navAria: "Stránky", skip: "Přeskočit na obsah" },
+    en: { navTools: "Tools", navShips: "Battleships", navAria: "Pages", skip: "Skip to content" },
 };
 const HOME = { cs: "https://zvondis.dev/", en: "https://zvondis.dev/en/" };
 
@@ -31,6 +31,7 @@ export function initLang(copy, onChange = () => {}) {
         for (const el of document.querySelectorAll("[data-home]")) el.href = HOME[l];
         button.textContent = l === "en" ? "CZ" : "EN";
         button.lang = l === "en" ? "cs" : "en";
+        button.setAttribute("aria-label", l === "en" ? "CZ, přepnout do češtiny" : "EN, switch to English");
         button.dataset.lang = l;
         try {
             localStorage.setItem("lang", l);

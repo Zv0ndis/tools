@@ -1,17 +1,30 @@
 /* =========================================================================
-   tools.zvondis.dev stylesheet, taken from the zvondis.dev design system.
-   One grotesque (Archivo) carries everything through weight; one ink on paper;
-   hairline rules, no cards, no shadows. The accent is only the focus ring.
-   How to use the classes: README.md, section "Stylesheet".
+   tools.zvondis.dev: the zvondis.dev design system, cut down for tools.
+   One grotesque (Archivo) carries everything through weight. A narrow
+   left rail holds the mark and the nav; content hangs from column 4 of a
+   12-column grid. Ink on paper, hairline rules, no cards, no shadows.
+   The accent blue is only the keyboard focus ring on this site.
+
+   Order: tokens, fonts, base, layout, nav, type, components, then one
+   section per tool with classes prefixed by the tool's name.
+   Every class is documented in DESIGN.md. The rules mirror the zvondis.dev
+   stylesheet; keep them in step with it rather than inventing new ones.
    ========================================================================= */
+
+/* =========================================================================
+   Tokens
+   ========================================================================= */
+
 :root {
     --paper: #fafaf9;
     --ink: #0c0c0d;
-    --mute: #595c62;
-    --rule: #d9dadc;
-    --field: #7a7d83;
-    --accent: #1637e0;
+    --mute: #595c62; /* 6.42:1 on paper */
+    --rule: #d9dadc; /* decorative hairlines only */
+    --field: #7a7d83; /* input borders, 3.95:1 on paper */
+    --accent: #1637e0; /* focus ring only on tools */
+
     --font: "Archivo", "Helvetica Neue", helvetica, arial, sans-serif;
+
     --gutter: 16px;
     --col-gap: 24px;
     --space-band: 64px;
@@ -19,17 +32,23 @@
     --target: 44px;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 @media (width >= 600px) {
     :root {
         --gutter: 32px;
     }
 }
+
 @media (width >= 960px) {
     :root {
         --gutter: 56px;
         --space-band: 88px;
     }
 }
+
+/* =========================================================================
+   Fonts: Archivo variable, self-hosted (OFL, see fonts/archivo-OFL.txt)
+   ========================================================================= */
 
 @font-face {
     font-family: Archivo;
@@ -41,6 +60,7 @@
         U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
         U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
     font-family: Archivo;
     font-style: normal;
@@ -53,19 +73,28 @@
         U+2C60-2C7F, U+A720-A7FF;
 }
 
+/* =========================================================================
+   Base
+   ========================================================================= */
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
+
 [hidden] {
     display: none !important;
 }
+
 html {
     background: var(--paper);
     color-scheme: light;
+    scrollbar-color: var(--mute) var(--paper);
     -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
+
 body {
     margin: 0;
     background: var(--paper);
@@ -74,96 +103,279 @@ body {
     font-size: 1.0625rem;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+    caret-color: var(--ink);
 }
+
 ::selection {
     background: var(--ink);
     color: var(--paper);
 }
+
 h1,
 h2,
 h3,
 p,
-ul {
+ul,
+ol,
+dl,
+dd {
     margin: 0;
 }
-ul {
+
+ul,
+ol {
     padding: 0;
     list-style: none;
 }
+
 a {
     color: inherit;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.22em;
+    transition: color 0.15s var(--ease);
 }
+
 a:hover {
     text-decoration-thickness: 2px;
 }
+
 :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
 }
+
 strong {
     font-weight: 700;
 }
+
 input,
 button,
+select,
 textarea {
     font: inherit;
     color: inherit;
 }
 
+/* "Skip to content": hidden until it gets keyboard focus. */
+.skip {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    padding: 10px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 700;
+    transform: translateY(-200%);
+}
+
+.skip:focus {
+    transform: none;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0s !important;
+    }
+}
+
+/* =========================================================================
+   Layout: 12 columns from 960px. Rail = columns 1-3, content = 4-12.
+   .main is a subgrid in both axes, so its lead shares row 1 with the rail
+   and every band below can put its heading back in the rail columns.
+   Below 960px everything is one column.
+   ========================================================================= */
+
 .frame {
-    max-width: 1440px;
-    margin: 0 auto;
     padding: 0 var(--gutter) 96px;
 }
+
+/* position: relative also lifts the rail above .main, which overlaps it on desktop. */
 .rail {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    position: relative;
     padding: 20px 0 8px;
 }
-.rail > * {
+
+.mark {
     display: inline-flex;
     align-items: center;
     min-height: var(--target);
     font-size: 0.9375rem;
     font-weight: 700;
     letter-spacing: -0.01em;
-}
-.rail a {
     text-decoration: none;
 }
-.rail a:hover {
-    text-decoration: underline;
+
+.lead {
+    padding-top: 24px;
 }
+
+.bands {
+    margin-top: var(--space-band);
+}
+
+.band {
+    border-top: 1px solid var(--ink);
+    padding-top: 14px;
+}
+
+.band + .band {
+    margin-top: var(--space-band);
+}
+
+.band > h2 {
+    margin-bottom: 20px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.band > * + * {
+    margin-top: 16px;
+}
+
+@media (width >= 960px) {
+    .frame {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-rows: auto auto;
+        column-gap: var(--col-gap);
+    }
+
+    .rail {
+        grid-column: 1 / 4;
+        grid-row: 1;
+        padding-top: 36px;
+    }
+
+    .main {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-row: 1 / span 2;
+        grid-template-columns: subgrid;
+        grid-template-rows: subgrid;
+    }
+
+    .lead {
+        grid-column: 4 / -1;
+        grid-row: 1;
+        padding-top: 42px;
+    }
+
+    .bands {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-row: 2;
+        grid-template-columns: subgrid;
+        align-content: start;
+    }
+
+    .band {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: subgrid;
+        align-content: start;
+    }
+
+    .band > h2 {
+        grid-column: 1 / 4;
+        grid-row: 1;
+        margin: 0;
+    }
+
+    .band > :not(h2) {
+        grid-column: 4 / -1;
+    }
+
+    .band > h2 + * {
+        margin-top: 0;
+    }
+}
+
+/* =========================================================================
+   Nav: vertical in the rail on desktop, a row under the mark on phones.
+   The current page is ink and bold (aria-current), never coloured.
+   ========================================================================= */
+
 .rail-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 24px;
+    margin-top: 4px;
 }
-.rail-nav a {
+
+.rail-nav ul {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    column-gap: 24px;
+}
+
+.nav-link,
+.lang-switch {
     display: inline-flex;
     align-items: center;
     min-height: var(--target);
     color: var(--mute);
+    font-size: 0.9375rem;
+    text-decoration: none;
 }
-.rail-nav .mark,
-.rail-nav a[aria-current] {
-    color: var(--ink);
-}
-.rail .quiet {
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--mute);
-    cursor: pointer;
-}
-.rail .quiet:hover {
+
+.nav-link:hover,
+.lang-switch:hover {
     color: var(--ink);
     text-decoration: underline;
 }
+
+.nav-link[aria-current="page"] {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+/* CZ / EN: top right of the rail. A <button> here, so it drops the button chrome. */
+.lang-switch {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    justify-content: center;
+    padding: 0 8px;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+@media (width >= 960px) {
+    .rail-nav {
+        margin-top: 16px;
+    }
+
+    .rail-nav ul {
+        grid-template-columns: none;
+    }
+
+    .lang-switch {
+        top: 36px;
+    }
+}
+
+/* With a mouse the rail keeps a tight 30px rhythm; touch keeps 44px. */
+@media (width >= 960px) and (pointer: fine) {
+    .nav-link {
+        min-height: 30px;
+    }
+}
+
+/* =========================================================================
+   Type: Display h1 (800) against a Lede subtitle (400, mute).
+   ========================================================================= */
 
 h1 {
     font-size: clamp(2.5rem, 4.6vw + 0.5rem, 4.5rem);
@@ -172,118 +384,55 @@ h1 {
     letter-spacing: -0.04em;
     text-wrap: balance;
 }
-.lead {
-    padding-top: 24px;
-}
+
 .subtitle {
     margin-top: 20px;
     color: var(--mute);
     font-size: 1.25rem;
     line-height: 1.45;
 }
-.bands {
-    margin-top: var(--space-band);
-}
-.band {
-    border-top: 1px solid var(--ink);
-    padding-top: 14px;
-}
-.band + .band {
-    margin-top: var(--space-band);
-}
-.band > h2 {
-    margin-bottom: 20px;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    line-height: 1.4;
-}
-.band > * + * {
-    margin-top: 16px;
-}
-@media (width >= 960px) {
-    .frame {
-        display: grid;
-        grid-template-columns: repeat(12, minmax(0, 1fr));
-        column-gap: var(--col-gap);
-        align-content: start;
-    }
-    .rail {
-        grid-column: 1 / -1;
-        padding-top: 36px;
-    }
-    .main {
-        display: grid;
-        grid-column: 1 / -1;
-        grid-template-columns: subgrid;
-    }
-    .lead {
-        grid-column: 4 / -1;
-        padding-top: 42px;
-    }
-    .bands {
-        display: grid;
-        grid-column: 1 / -1;
-        grid-template-columns: subgrid;
-    }
-    .band {
-        display: grid;
-        grid-column: 1 / -1;
-        grid-template-columns: subgrid;
-        align-content: start;
-    }
-    .band > h2 {
-        grid-column: 1 / 4;
-        grid-row: 1;
-        margin: 0;
-    }
-    .band > :not(h2) {
-        grid-column: 4 / -1;
-    }
-    .band > h2 + * {
-        margin-top: 0;
-    }
-}
 
-/* Landing list */
-.items a {
-    display: block;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--rule);
+/* Title: a heading inside a band, e.g. one file in a result list. */
+h3 {
     font-size: 1.125rem;
     font-weight: 700;
+    line-height: 1.3;
     letter-spacing: -0.01em;
-    text-decoration: none;
-}
-.items a:hover {
-    text-decoration: underline;
-}
-.items b {
-    font-weight: inherit;
-}
-.items span {
-    display: block;
-    color: var(--mute);
-    font-size: 0.9375rem;
-    font-weight: 400;
-    letter-spacing: 0;
 }
 
-/* Forms */
+/* =========================================================================
+   Components: forms stay calm. Labels above fields, native controls.
+   ========================================================================= */
+
+/* Fields: a stack 20px apart; .fields-2 puts two side by side from 600px. */
+.fields {
+    display: grid;
+    gap: 20px;
+}
+
+@media (width >= 600px) {
+    .fields-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: var(--col-gap);
+    }
+}
+
+/* <label class="field"><span>Label</span><input></label> */
 .field {
     display: grid;
     gap: 6px;
     font-size: 0.9375rem;
     font-weight: 700;
 }
-.fields {
-    display: grid;
-    gap: 20px;
-}
+
 input[type="text"],
 input[type="email"],
 input[type="url"],
 input[type="search"],
+input[type="password"],
+input[type="tel"],
 input[type="date"],
+input[type="time"],
 input[type="number"],
 select,
 textarea {
@@ -293,28 +442,38 @@ textarea {
     border: 1px solid var(--field);
     border-radius: var(--radius);
     background: var(--paper);
+    color: var(--ink);
     font-size: 1.0625rem;
     font-weight: 400;
     line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+}
+
+textarea {
     resize: vertical;
 }
+
 input:not([type="file"], [type="radio"], [type="checkbox"]):hover,
 select:hover,
 textarea:hover {
     border-color: var(--ink);
 }
+
 input:not([type="file"], [type="radio"], [type="checkbox"]):focus-visible,
 select:focus-visible,
 textarea:focus-visible {
     border-color: var(--ink);
     outline-offset: 0;
 }
+
+/* File picker: the native button drawn as .button-outline. */
 input[type="file"] {
     width: 100%;
     color: var(--mute);
     font-size: 0.9375rem;
     font-weight: 400;
 }
+
 input[type="file"]::file-selector-button {
     min-height: var(--target);
     margin-right: 12px;
@@ -326,38 +485,85 @@ input[type="file"]::file-selector-button {
     font: inherit;
     font-weight: 700;
     cursor: pointer;
+    transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
 }
+
 input[type="file"]::file-selector-button:hover {
     background: var(--ink);
     color: var(--paper);
 }
+
+/* Radio and checkbox groups: <fieldset class="choices"><legend> + label.choice. */
+input[type="radio"],
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--ink);
+}
+
+.choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 32px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.choices legend {
+    margin-bottom: 6px;
+    padding: 0;
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--target);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Buttons: one ink .button per action group; .button-outline for the second. */
 .button {
     display: inline-flex;
     align-items: center;
     justify-self: start;
     min-height: var(--target);
     padding: 10px 22px;
-    border: 0;
+    border: 1px solid transparent;
     border-radius: var(--radius);
     background: var(--ink);
     color: var(--paper);
     font-weight: 700;
+    text-decoration: none;
     cursor: pointer;
+    transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
 }
+
 .button:hover {
     background: var(--mute);
 }
-/* Second action next to a .button: same size, outlined. */
+
+.button:active {
+    transform: translateY(1px);
+}
+
 .button-outline {
     border: 1px solid var(--ink);
     background: var(--paper);
     color: var(--ink);
 }
+
 .button-outline:hover {
     background: var(--ink);
     color: var(--paper);
 }
-/* Text call to action: bold, underlined, 44px hit area. */
+
+/* Text call to action: bold, underlined, 44px hit area. An <a> or a <button>. */
 .text-link {
     display: inline-flex;
     align-items: center;
@@ -368,41 +574,138 @@ input[type="file"]::file-selector-button:hover {
     font-weight: 700;
     text-decoration: underline;
     text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
     cursor: pointer;
 }
-/* Errors are written words in bold ink, never colour alone. */
-.error {
-    font-weight: 700;
+
+.text-link:hover {
+    text-decoration-thickness: 2px;
 }
+
 .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    align-items: center;
+    gap: 12px 24px;
 }
+
+/* Quiet caveat or privacy line under a form or result. */
 .note {
-    margin-top: 24px;
     color: var(--mute);
     font-size: 0.9375rem;
 }
 
-/* Injection check results (.ic-*) */
+.band > .note {
+    margin-top: 24px;
+}
+
+/* Problems are written words in bold ink, never colour alone. Empty = hidden. */
+.error {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.error:empty {
+    display: none;
+}
+
+/* Items: a list of links, each a row with a bold title (b) and a mute detail (span). */
+.items a {
+    display: grid;
+    gap: 2px var(--col-gap);
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+}
+
+.items {
+    margin-top: -14px;
+}
+
+.items b {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    text-decoration: underline;
+    text-decoration-color: var(--mute);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+}
+
+.items a:hover b {
+    text-decoration-color: currentcolor;
+    text-decoration-thickness: 2px;
+}
+
+.items span {
+    color: var(--mute);
+    font-size: 0.9375rem;
+}
+
+@media (width >= 600px) {
+    .items a {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    }
+}
+
+/* Results: label left, value right in tabular figures, hairline between rows. */
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.result-row:first-child {
+    padding-top: 0;
+}
+
+.result-row > :last-child {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* A total: bold, larger value, closed by an ink rule. */
+.result-total {
+    border-bottom-color: var(--ink);
+    font-weight: 700;
+}
+
+.result-total > :last-child {
+    font-size: 1.375rem;
+    letter-spacing: -0.01em;
+}
+
+/* =========================================================================
+   Tool: Injection check (.ic-*), rows built by injection-check/inject-check.js
+   ========================================================================= */
+
 .ic-file + .ic-file {
     margin-top: 32px;
 }
+
 .ic-file h3 {
     overflow-wrap: anywhere;
 }
+
 .ic-verdict {
     margin-top: 4px;
     font-weight: 700;
 }
+
 .ic-list {
     margin-top: 12px;
 }
+
 .ic-list li {
     padding: 12px 0;
     border-bottom: 1px solid var(--rule);
 }
+
 .ic-list code {
     display: block;
     margin-top: 4px;
@@ -413,67 +716,21 @@ input[type="file"]::file-selector-button:hover {
     overflow-wrap: anywhere;
 }
 
-/* Radios, checkboxes and the Job Pay rows (.contract, .radio, .pay-row) */
-input[type="radio"],
-input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    accent-color: var(--ink);
-}
-.contract {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 32px;
-    margin: 0 0 24px;
-    padding: 0;
-    border: 0;
-}
-.contract legend {
-    margin-bottom: 6px;
-    padding: 0;
-    font-size: 0.9375rem;
-    font-weight: 700;
-}
-.radio {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    min-height: var(--target);
-    font-weight: 700;
-    cursor: pointer;
-}
-.pay-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 24px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--rule);
-}
-.pay-row > :last-child {
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-}
-.pay-row:first-child {
-    padding-top: 0;
-}
-.pay-row-total {
-    border-bottom-color: var(--ink);
-    font-weight: 700;
-}
-.pay-row-total > :last-child {
-    font-size: 1.375rem;
-    letter-spacing: -0.01em;
-}
+/* =========================================================================
+   Tool: Job Pay (.pay-*)
+   ========================================================================= */
+
+/* DPP / DPČ limit line; job-pay.js adds .pay-threshold-over, which says it in bold. */
 .pay-threshold-text {
     margin: 16px 0 4px;
     color: var(--mute);
     font-size: 0.9375rem;
 }
+
 .pay-threshold-text:empty {
     display: none;
 }
+
 .pay-threshold-over {
     color: var(--ink);
     font-weight: 700;

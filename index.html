@@ -11,20 +11,25 @@
         <title>Tools | zvondis.dev</title>
         <meta name="description" content="Small browser tools and games." />
         <link rel="canonical" href="https://tools.zvondis.dev/" />
+        <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="stylesheet" href="/assets/style.css" />
+        <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
         <script type="module" src="/index.js"></script>
     </head>
     <body>
+        <a class="skip" href="#main" data-t="skip">Skip to content</a>
         <div class="frame">
             <header class="rail">
-                <nav class="rail-nav" aria-label="Sites" data-t-aria="navAria">
-                    <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
-                    <a href="/" data-t="navTools" aria-current="page">Tools</a>
-                    <a href="/battleships/" data-t="navShips">Battleships</a>
+                <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+                <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
+                    <ul>
+                        <li><a href="/" class="nav-link" data-t="navTools" aria-current="page">Tools</a></li>
+                        <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
+                    </ul>
+                    <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
                 </nav>
-                <button type="button" class="quiet" id="lang" lang="cs">CZ</button>
             </header>
-            <main class="main">
+            <main id="main" class="main">
                 <header class="lead">
                     <h1 data-t="h1">Tools</h1>
                     <p class="subtitle" data-t="subtitle">Small things that run in your browser.</p>
