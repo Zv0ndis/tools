@@ -1,5 +1,12 @@
 "use strict";
 
+// frame-buster: the Pages copy cannot send frame-ancestors (ignored in a meta CSP)
+if (window.top !== window.self) {
+  document.documentElement.style.display = "none";
+  try { window.top.location = window.self.location.href; } catch {}
+  throw new Error("framed");
+}
+
 const SIZE = 10;
 const FLEET = [5, 4, 3, 3, 2];
 const NAMES = ["Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer"];
