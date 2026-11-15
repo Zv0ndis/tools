@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light" />
+        <title>Injection Check | Tools</title>
+        <meta
+            name="description"
+            content="Checks text files for hidden prompt-injection attempts, right in your browser."
+        />
+        <link rel="canonical" href="https://tools.zvondis.dev/injection-check/" />
+        <link rel="stylesheet" href="/assets/style.css" />
+        <script type="module" src="/injection-check/inject-check.js"></script>
+    </head>
+    <body>
+        <div class="frame">
+            <header class="rail">
+                <a href="/" data-t="back">Tools</a>
+                <button type="button" class="quiet" id="icLang" lang="cs">CZ</button>
+            </header>
+            <main class="main">
+                <header class="lead">
+                    <h1 data-t="h1">Injection Check</h1>
+                    <p class="subtitle" data-t="subtitle">Finds hidden AI instructions (prompt injection) in text files</p>
+                </header>
+                <div class="bands">
+                    <section class="band">
+                        <h2 data-t="formHeading">Input</h2>
+                        <form id="icForm" class="fields">
+                            <label class="field"
+                                ><span data-t="fileLabel">Choose one or more text files</span>
+                                <input type="file" id="icFiles" multiple accept="text/*,.txt,.md,.csv,.json,.html,.htm,.xml,.yml,.yaml,.log" />
+                            </label>
+                            <label class="field"
+                                ><span data-t="textLabel">…or paste text</span>
+                                <textarea id="icText" rows="8" spellcheck="false"></textarea>
+                            </label>
+                            <button type="submit" class="button" data-t="submit">Check</button>
+                        </form>
+                        <p class="note" data-t="privacy">The check runs in your browser only; nothing is uploaded.</p>
+                    </section>
+                    <section class="band">
+                        <h2 data-t="resultHeading">Result</h2>
+                        <div id="icResults" aria-live="polite"></div>
+                        <div id="icDownload" class="actions" hidden>
+                            <button type="button" class="button" id="icDlTxt" data-t="dlTxt">Download .txt</button>
+                            <button type="button" class="button" id="icDlMd" data-t="dlMd">Download .md</button>
+                        </div>
+                        <p class="note" data-t="disclaimer">This is a heuristic: it looks for hidden characters (Unicode tags, zero-width, bidi), typical phrases like “ignore previous instructions”, chat-template markers, hidden text and links that could leak data. Finding nothing doesn't mean a file is safe.</p>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
