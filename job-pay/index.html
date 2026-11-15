@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light" />
+        <title>Job Pay | Tools</title>
+        <meta name="description" content="Rough net-pay calculator for Czech part-time student contracts (DPP / DPČ), 2026." />
+        <link rel="canonical" href="https://tools.zvondis.dev/job-pay/" />
+        <link rel="stylesheet" href="/assets/style.css" />
+        <script type="module" src="/job-pay/job-pay.js"></script>
+    </head>
+    <body>
+        <div class="frame">
+            <header class="rail">
+                <nav class="rail-nav" aria-label="Sites" data-t-aria="navAria">
+                    <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+                    <a href="/" data-t="navTools">Tools</a>
+                    <a href="/battleships/" data-t="navShips">Battleships</a>
+                </nav>
+                <button type="button" class="quiet" id="lang" lang="cs">CZ</button>
+            </header>
+            <main class="main">
+                <header class="lead">
+                    <h1 data-t="h1">Job Pay</h1>
+                    <p class="subtitle" data-t="subtitle">Part-time job payout calculator (DPP / DPČ)</p>
+                </header>
+                <div class="bands">
+                    <section class="band">
+                        <h2 data-t="formHeading">Input</h2>
+                        <form id="payForm">
+                            <fieldset class="contract">
+                                <legend data-t="contractLabel">Contract type</legend>
+                                <label class="radio"><input type="radio" name="contractType" value="dpp" checked /> DPP</label>
+                                <label class="radio"><input type="radio" name="contractType" value="dpc" /> DPČ</label>
+                            </fieldset>
+                            <div class="fields">
+                                <label class="field"
+                                    ><span data-t="hourlyRate">Hourly rate (Kč/hr)</span>
+                                    <input type="number" id="hourlyRate" min="0" step="0.5" value="150" inputmode="decimal" required />
+                                </label>
+                                <label class="field"
+                                    ><span data-t="regularHours">Hours worked: regular</span>
+                                    <input type="number" id="regularHours" min="0" step="0.25" value="0" inputmode="decimal" required />
+                                </label>
+                                <label class="field"
+                                    ><span data-t="nightHours">Hours worked: of which night / weekend</span>
+                                    <input type="number" id="nightHours" min="0" step="0.25" value="0" inputmode="decimal" required />
+                                </label>
+                            </div>
+                        </form>
+                    </section>
+                    <section class="band">
+                        <h2 data-t="resultHeading">Result</h2>
+                        <div class="pay-results" aria-live="polite">
+                            <div class="pay-row"><span data-t="rowRegular">Regular hours</span><span id="resRegularPay">0 Kč</span></div>
+                            <div class="pay-row"><span data-t="rowNight">Night / weekend bonus (+10%)</span><span id="resNightPay">0 Kč</span></div>
+                            <div class="pay-row pay-row-total"><span data-t="rowGross">Total gross pay</span><span id="resGrossTotal">0 Kč</span></div>
+                            <p id="resThresholdText" class="pay-threshold-text"></p>
+                            <div class="pay-row" id="resTaxRow"><span id="resTaxLabel">Income tax (15%)</span><span id="resTax">0 Kč</span></div>
+                            <div class="pay-row pay-row-total">
+                                <span data-t="rowNet">Estimated net pay</span>
+                                <output id="resNetTotal" for="hourlyRate regularHours nightHours">0 Kč</output>
+                            </div>
+                        </div>
+                        <p class="note" data-t="disclaimer">
+                            This is a rough estimate for 2026 (student, no social/health insurance contributions). It doesn't account for a signed taxpayer declaration or tax credits. Actual net pay may differ.
+                        </p>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

@@ -2,28 +2,40 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="color-scheme" content="light" />
         <title>Tools | zvondis.dev</title>
         <meta name="description" content="Small browser tools and games." />
+        <link rel="canonical" href="https://tools.zvondis.dev/" />
         <link rel="stylesheet" href="/assets/style.css" />
+        <script type="module" src="/index.js"></script>
     </head>
     <body>
         <div class="frame">
             <header class="rail">
-                <a href="https://zvondis.dev">Zvondis</a>
+                <nav class="rail-nav" aria-label="Sites" data-t-aria="navAria">
+                    <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+                    <a href="/" data-t="navTools" aria-current="page">Tools</a>
+                    <a href="/battleships/" data-t="navShips">Battleships</a>
+                </nav>
+                <button type="button" class="quiet" id="lang" lang="cs">CZ</button>
             </header>
             <main class="main">
                 <header class="lead">
-                    <h1>Tools</h1>
-                    <p class="subtitle">Small things that run in your browser.</p>
+                    <h1 data-t="h1">Tools</h1>
+                    <p class="subtitle" data-t="subtitle">Small things that run in your browser.</p>
                 </header>
                 <div class="bands">
                     <section class="band">
-                        <h2>Index</h2>
-                        <nav class="items" aria-label="Tools">
-                            <a href="/injection-check/">Injection check<span>Finds hidden AI instructions in text files.</span></a>
-                            <a href="/battleships/">Battleships<span>A game of ships and guesses.</span></a>
+                        <h2 data-t="index">Index</h2>
+                        <nav class="items" aria-label="Tools" data-t-aria="h1">
+                            <a href="/job-pay/"><b data-t="payName">Job Pay</b><span data-t="payText">Net pay from a DPP / DPČ student job.</span></a>
+                            <a href="/injection-check/"><b data-t="icName">Injection check</b><span data-t="icText">Finds hidden AI instructions in text files.</span></a>
+                            <a href="/battleships/"><b data-t="navShips">Battleships</b><span data-t="shipsText">A game of ships and guesses.</span></a>
                         </nav>
                     </section>
                 </div>

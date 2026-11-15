@@ -124,7 +124,7 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22e
   padding: 0 var(--gutter);
   border-bottom: 1px solid var(--ink);
 }
-.zv-mark, .brand {
+.zv-mark, .zv-link, .brand {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -134,7 +134,8 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22e
 }
 .zv-mark { font-weight: 800; }
 .brand { font-weight: 300; }
-.zv-mark:hover, .brand:hover { text-decoration: underline; }
+.zv-link { font-weight: 400; color: var(--mute); }
+.zv-mark:hover, .zv-link:hover, .brand:hover { text-decoration: underline; }
 
 .status {
   margin-left: auto;

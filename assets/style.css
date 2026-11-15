@@ -132,6 +132,21 @@ textarea {
 .rail a:hover {
     text-decoration: underline;
 }
+.rail-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+}
+.rail-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target);
+    color: var(--mute);
+}
+.rail-nav .mark,
+.rail-nav a[aria-current] {
+    color: var(--ink);
+}
 .rail .quiet {
     padding: 0;
     border: 0;
@@ -236,6 +251,9 @@ h1 {
 .items a:hover {
     text-decoration: underline;
 }
+.items b {
+    font-weight: inherit;
+}
 .items span {
     display: block;
     color: var(--mute);
@@ -255,6 +273,7 @@ h1 {
     display: grid;
     gap: 20px;
 }
+input[type="number"],
 textarea {
     width: 100%;
     min-height: var(--target);
@@ -267,9 +286,11 @@ textarea {
     line-height: 1.5;
     resize: vertical;
 }
+input[type="number"]:hover,
 textarea:hover {
     border-color: var(--ink);
 }
+input[type="number"]:focus-visible,
 textarea:focus-visible {
     border-color: var(--ink);
     outline-offset: 0;
@@ -349,4 +370,69 @@ input[type="file"]::file-selector-button:hover {
     font-size: 0.875rem;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+}
+
+/* Job Pay */
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--ink);
+}
+.contract {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 32px;
+    margin: 0 0 24px;
+    padding: 0;
+    border: 0;
+}
+.contract legend {
+    margin-bottom: 6px;
+    padding: 0;
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+.radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--target);
+    font-weight: 700;
+    cursor: pointer;
+}
+.pay-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+}
+.pay-row > :last-child {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.pay-row:first-child {
+    padding-top: 0;
+}
+.pay-row-total {
+    border-bottom-color: var(--ink);
+    font-weight: 700;
+}
+.pay-row-total > :last-child {
+    font-size: 1.375rem;
+    letter-spacing: -0.01em;
+}
+.pay-threshold-text {
+    margin: 16px 0 4px;
+    color: var(--mute);
+    font-size: 0.9375rem;
+}
+.pay-threshold-text:empty {
+    display: none;
+}
+.pay-threshold-over {
+    color: var(--ink);
+    font-weight: 700;
 }

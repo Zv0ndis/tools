@@ -7,7 +7,6 @@ export default {
     dlMd: "Stáhnout .md",
     reportTitle: "Zpráva kontroly injekce",
     generated: "Vytvořeno",
-    back: "Nástroje",
     title: "Kontrola injekce | Nástroje",
     h1: "Kontrola injekce",
     subtitle:
@@ -58,7 +57,6 @@ export default {
     dlMd: "Download .md",
     reportTitle: "Injection check report",
     generated: "Generated",
-    back: "Tools",
     title: "Injection Check | Tools",
     h1: "Injection Check",
     subtitle: "Finds hidden AI instructions (prompt injection) in text files",

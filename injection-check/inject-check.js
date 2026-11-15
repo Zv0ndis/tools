@@ -307,6 +307,7 @@ function download(text, type, filename) {
 
 if (typeof document !== "undefined") {
   const { default: copy } = await import("./copy.js");
+  const { initLang } = await import("/assets/lang.js");
   const $ = (id) => document.getElementById(id);
   const form = $("icForm");
   const input = $("icFiles");
@@ -329,27 +330,10 @@ if (typeof document !== "undefined") {
     dl.hidden = !results.length;
   };
   // Switching language re-renders; results are stored as data, not as markup.
-  const setLang = (l) => {
+  const onLang = (l) => {
     lang = l;
-    const m = copy[l];
-    document.documentElement.lang = l;
-    document.title = m.title;
-    for (const el of document.querySelectorAll("[data-t]"))
-      el.textContent = m[el.dataset.t];
-    $("icLang").textContent = l === "en" ? "CZ" : "EN";
-    $("icLang").lang = l === "en" ? "cs" : "en";
-    try {
-      localStorage.setItem("lang", l);
-    } catch {}
     show();
   };
-  let saved = null;
-  try {
-    saved = localStorage.getItem("lang");
-  } catch {}
-  $("icLang").addEventListener("click", () =>
-    setLang(lang === "en" ? "cs" : "en"),
-  );
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -398,9 +382,5 @@ if (typeof document !== "undefined") {
       );
     });
   }
-  setLang(
-    saved === "cs" || (!saved && navigator.language.startsWith("cs"))
-      ? "cs"
-      : "en",
-  );
+  initLang(copy, onLang);
 }
