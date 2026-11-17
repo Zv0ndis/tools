@@ -806,3 +806,28 @@ input[type="checkbox"] {
     color: var(--ink);
     font-weight: 700;
 }
+
+/* =========================================================================
+   Tool: Subnet calculator (.subnet-*), rows built by subnet/subnet.js
+   ========================================================================= */
+
+/* Long values (binary, IPv6, big counts) drop under their label and break anywhere. */
+.subnet-out .result-row {
+    flex-wrap: wrap;
+}
+
+.subnet-out .result-row > :last-child {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.subnet-out > h3 {
+    margin: 32px 0 12px;
+}
+
+.subnet-out > p + p,
+.subnet-out > p + div,
+.subnet-out > div + p {
+    margin-top: 12px;
+}

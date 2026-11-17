@@ -14,6 +14,8 @@ initLang({
         qrText: "Udělá z textu nebo odkazu QR kód ke stažení jako PNG nebo SVG.",
         decName: "Dekodér",
         decText: "Formátuje JSON, převádí Base64 a čte JWT tokeny.",
+        subName: "Kalkulačka podsítí",
+        subText: "Rozsah, maska a rozdělení sítě pro IPv4 i IPv6.",
         shipsText: "Hra o lodích a tipování (anglicky).",
     },
     en: {
@@ -29,6 +31,8 @@ initLang({
         qrText: "Turns text or a link into a QR code to download as PNG or SVG.",
         decName: "Decoder",
         decText: "Formats JSON, converts Base64 and reads JWT tokens.",
+        subName: "Subnet Calculator",
+        subText: "Range, mask and network splits for IPv4 and IPv6.",
         shipsText: "A game of ships and guesses.",
     },
 });

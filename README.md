@@ -9,6 +9,7 @@ Small tools and games at **[tools.zvondis.dev](https://tools.zvondis.dev)**, a s
 | `/injection-check/` | Finds hidden AI instructions in text files                     |
 | `/qr/`              | QR code from text or a link, as PNG or SVG                     |
 | `/decode/`          | JSON format and check, Base64, JWT reading                     |
+| `/subnet/`          | IPv4 and IPv6 subnet calculator                                |
 | `/battleships/`     | Client of the Battleships game; published from a separate repo |
 | `/assets/`          | Shared stylesheet, `lang.js`, Archivo font, favicon            |
 | `/search.json`      | Search index, copied from zvondis.dev (see Search below)       |

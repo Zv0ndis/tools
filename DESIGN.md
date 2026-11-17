@@ -243,6 +243,7 @@ A tool that truly needs its own rules adds a section at the end of `assets/style
 
 - **Injection check** (`.ic-*`, built by `injection-check/inject-check.js`): `.ic-file` one checked file with an `h3` name, `.ic-verdict` its bold verdict, `.ic-list` its findings as hairline rows, the evidence in a mute `code` line.
 - **Job Pay** (`.pay-*`): `.pay-threshold-text` the DPP / DPČ limit line, mute; `job-pay.js` adds `.pay-threshold-over`, which turns it bold ink.
+- **Subnet calculator** (`.subnet-*`): `.subnet-out` wraps the results; its rows let long values (binary, IPv6, big counts) drop under the label and break anywhere, its `h3` opens a group with 32px above.
 
 ### Motion
 

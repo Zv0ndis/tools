@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        <title>Subnet Calculator | Tools</title>
+        <meta name="description" content="IPv4 and IPv6 subnet calculator: network, broadcast, host range, masks and splitting a network, right in your browser." />
+        <link rel="canonical" href="https://tools.zvondis.dev/subnet/" />
+        <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="/assets/style.css" />
+        <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+        <script src="/assets/search.js" defer></script>
+        <script type="module" src="/subnet/subnet.js"></script>
+    </head>
+    <body>
+        <a class="skip" href="#main" data-t="skip">Skip to content</a>
+        <div class="frame">
+            <header class="rail">
+                <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+                <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
+                    <ul>
+                        <li><a href="/" class="nav-link" data-t="navTools">Tools</a></li>
+                        <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
+                    </ul>
+                    <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+                </nav>
+            </header>
+            <main id="main" class="main">
+                <header class="lead">
+                    <h1 data-t="h1">Subnet Calculator</h1>
+                    <p class="subtitle" data-t="subtitle">Range, mask and network splits for IPv4 and IPv6</p>
+                </header>
+                <div class="bands">
+                    <section class="band">
+                        <h2 data-t="v4Heading">IPv4</h2>
+                        <form id="v4Form" class="fields">
+                            <label class="field"
+                                ><span data-t="v4Label">Address with prefix or mask</span>
+                                <input type="text" id="v4In" value="192.168.1.10/24" autocomplete="off" spellcheck="false" aria-describedby="v4Note" />
+                            </label>
+                        </form>
+                        <p class="note" id="v4Note" data-t="v4Note">For example 192.168.1.10/24 or 192.168.1.10 255.255.255.0. Without a prefix, /32 is used.</p>
+                        <div id="v4Out" class="subnet-out" aria-live="polite"></div>
+                    </section>
+                    <section class="band">
+                        <h2 data-t="splitHeading">Split</h2>
+                        <form id="splitForm" class="fields">
+                            <fieldset class="choices">
+                                <legend data-t="splitLegend">Split by</legend>
+                                <label class="choice"><input type="radio" name="mode" value="count" checked /> <span data-t="modeCount">Number of subnets</span></label>
+                                <label class="choice"><input type="radio" name="mode" value="prefix" /> <span data-t="modePrefix">New prefix</span></label>
+                            </fieldset>
+                            <label class="field"
+                                ><span id="splitLabel">Number of subnets</span>
+                                <input type="number" id="splitIn" min="1" step="1" value="4" inputmode="numeric" />
+                            </label>
+                        </form>
+                        <div id="splitOut" class="subnet-out" aria-live="polite"></div>
+                        <p class="note" data-t="splitNote">Splits the network from the IPv4 field above. Lists at most 64 subnets.</p>
+                    </section>
+                    <section class="band">
+                        <h2 data-t="v6Heading">IPv6</h2>
+                        <form id="v6Form" class="fields">
+                            <label class="field"
+                                ><span data-t="v6Label">IPv6 address with prefix</span>
+                                <input type="text" id="v6In" value="2001:db8::1/64" autocomplete="off" spellcheck="false" aria-describedby="v6Note" />
+                            </label>
+                        </form>
+                        <p class="note" id="v6Note" data-t="v6Note">For example 2001:db8::1/64. Without a prefix, /128 is used. Zone IDs (%eth0) are not supported.</p>
+                        <div id="v6Out" class="subnet-out" aria-live="polite"></div>
+                        <p class="note" data-t="privacy">Everything is calculated in your browser; nothing is sent anywhere.</p>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
