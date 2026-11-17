@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        <title>QR Code | Tools</title>
+        <meta name="description" content="Turns text or a link into a QR code in your browser, to download as PNG or SVG." />
+        <link rel="canonical" href="https://tools.zvondis.dev/qr/" />
+        <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="/assets/style.css" />
+        <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+        <script src="/assets/search.js" defer></script>
+        <script type="module" src="/qr/qr.js"></script>
+    </head>
+    <body>
+        <a class="skip" href="#main" data-t="skip">Skip to content</a>
+        <div class="frame">
+            <header class="rail">
+                <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+                <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
+                    <ul>
+                        <li><a href="/" class="nav-link" data-t="navTools">Tools</a></li>
+                        <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
+                    </ul>
+                    <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+                </nav>
+            </header>
+            <main id="main" class="main">
+                <header class="lead">
+                    <h1 data-t="h1">QR Code</h1>
+                    <p class="subtitle" data-t="subtitle">Turns text or a link into a QR code to download as PNG or SVG</p>
+                </header>
+                <div class="bands">
+                    <section class="band">
+                        <h2 data-t="formHeading">Input</h2>
+                        <form id="qrForm" class="fields">
+                            <label class="field"
+                                ><span data-t="textLabel">Text or link</span>
+                                <textarea id="qrText" rows="4" spellcheck="false"></textarea>
+                            </label>
+                            <fieldset class="choices">
+                                <legend data-t="levelLabel">Error correction (how much of the code may be damaged)</legend>
+                                <label class="choice"><input type="radio" name="level" value="L" /> <span data-t="levelL">L (7%)</span></label>
+                                <label class="choice"><input type="radio" name="level" value="M" checked /> <span data-t="levelM">M (15%)</span></label>
+                                <label class="choice"><input type="radio" name="level" value="Q" /> <span data-t="levelQ">Q (25%)</span></label>
+                                <label class="choice"><input type="radio" name="level" value="H" /> <span data-t="levelH">H (30%)</span></label>
+                            </fieldset>
+                        </form>
+                        <p class="note" data-t="privacy">The code is made in your browser; nothing is sent anywhere.</p>
+                    </section>
+                    <section class="band">
+                        <h2 data-t="resultHeading">Result</h2>
+                        <div aria-live="polite">
+                            <p id="qrEmpty" class="note" data-t="empty">Type some text or paste a link.</p>
+                            <p id="qrError" class="error"></p>
+                            <div id="qrInfo" hidden>
+                                <div class="result-row"><span data-t="rowVersion">Version</span><span id="qrVersion"></span></div>
+                                <div class="result-row"><span data-t="rowSize">Size</span><span id="qrSize"></span></div>
+                                <div class="result-row"><span data-t="rowLength">Length</span><span id="qrLength"></span></div>
+                            </div>
+                        </div>
+                        <div id="qrPicture" hidden><img id="qrImage" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'/%3E" width="288" height="288" alt="" /></div>
+                        <div id="qrDownload" class="actions" hidden>
+                            <button type="button" class="button" id="qrPng" data-t="dlPng">Download PNG</button>
+                            <button type="button" class="button button-outline" id="qrSvg" data-t="dlSvg">Download SVG</button>
+                        </div>
+                        <p class="note" data-t="note">Scan the code with your phone before you print it. Higher error correction makes a larger code that survives dirt and damage.</p>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
