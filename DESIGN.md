@@ -107,7 +107,7 @@ tools.zvondis.dev inherits the zvondis.dev design system and changes nothing in 
 
 ## Colors
 
-Near-white paper, near-black ink, one grey for secondary text, one grey for input borders and one hairline grey.
+Near-white paper, near-black ink, one grey for secondary text, one grey for input borders and one hairline grey. In dark mode the same five tokens and the accent swap to inverted values (see Dark).
 
 ### Primary
 
@@ -120,6 +120,21 @@ Near-white paper, near-black ink, one grey for secondary text, one grey for inpu
 - **Mute** (`--mute`, #595C62): subtitles, notes, row details, inactive nav, button hover. 6.42:1 on paper.
 - **Field** (`--field`, #7A7D83): input borders. 3.95:1 on paper, above the 3:1 a component boundary needs.
 - **Rule** (`--rule`, #D9DADC): hairlines between rows. Decorative only; it never carries text.
+
+### Dark
+
+The pages follow the OS setting (`prefers-color-scheme: dark`); there is no toggle and nothing is stored. Dark is the same page inverted, with the same values as zvondis.dev: the tokens keep their names and roles, only their values change, so no component or tool has its own dark rule. Pages declare `<meta name="color-scheme" content="light dark">` so native controls and scrollbars follow. The favicon mark inverts the same way.
+
+| Token  | Light   | Dark    | Dark ratio on paper |
+| ------ | ------- | ------- | ------------------- |
+| paper  | #FAFAF9 | #0C0C0D | page, inputs        |
+| ink    | #0C0C0D | #FAFAF9 | 18.72:1             |
+| mute   | #595C62 | #A0A3A9 | 7.73:1              |
+| field  | #7A7D83 | #7D8087 | 4.94:1 (non-text)   |
+| rule   | #D9DADC | #2B2D31 | decorative only     |
+| accent | #1637E0 | #8C9EFF | 7.87:1              |
+
+Tool CSS and scripts use the tokens, never a fixed colour, or they break in dark. The exception is output meant to leave the page: the QR code image and its PNG and SVG downloads are always black on white with a white border, because scanners need dark modules on a light ground.
 
 ### Named Rules
 
@@ -182,6 +197,8 @@ Square by default. Buttons, inputs and the file picker take a 2px radius; nothin
 
 On desktop the links stack at a 30px rhythm for mouse users and 44px on touch. On phones they sit in a row under the mark, each 44px tall.
 
+**Search** (`assets/search.js`, same file as on zvondis.dev): the script adds a `.search-open` button to the nav list. It opens `.search` in flow under the nav: a labelled combobox field, a `role="status"` count, the `.search-list` listbox and a mute key hint. The active result gets an ink bar on the left and a 2px underline, never a colour. Ctrl+K and `/` open it, arrows choose, Enter opens, Esc closes.
+
 ### Fields
 
 | Class / element                         | What                                                                      |
@@ -240,7 +257,7 @@ Colour transitions of 150ms on links, `.button` and the file picker button, a 1p
 - Use weight for emphasis and tabular figures for numbers.
 - Keep every interactive target at least 44px tall on touch.
 - Use native controls with a visible label, and the existing classes before new CSS.
-- Check 390px and 1280px, both languages, keyboard only.
+- Check 390px and 1280px, both languages, light and dark, keyboard only.
 
 ### Don't:
 

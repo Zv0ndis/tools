@@ -9,6 +9,7 @@ Small tools and games at **[tools.zvondis.dev](https://tools.zvondis.dev)**, a s
 | `/injection-check/` | Finds hidden AI instructions in text files                     |
 | `/battleships/`     | Client of the Battleships game; published from a separate repo |
 | `/assets/`          | Shared stylesheet, `lang.js`, Archivo font, favicon            |
+| `/search.json`      | Search index, copied from zvondis.dev (see Search below)       |
 
 ## Contributing
 
@@ -32,7 +33,8 @@ Any static server works; open pages through it, not as `file://`, because the sc
 1. Create `my-tool/index.html` from the page template below and `my-tool/my-tool.js` next to it.
 2. Put every visible string in a `copy` object with `cs` and `en` and mark the elements with `data-t="key"`. `initLang(copy, onChange)` from `/assets/lang.js` fills them, sets the title and wires the CZ/EN button.
 3. Add a row to the list in `index.html` and its two strings to `index.js`.
-4. Check it at phone width (390px) and desktop, in both languages, with the keyboard only.
+4. Add the tool to `tools` in `src/_data/site.js` of the zvondis.dev repo and run `npm run search` there (see Search).
+5. Check it at phone width (390px) and desktop, in both languages, in light and dark, with the keyboard only.
 
 ### Rules
 
@@ -40,7 +42,12 @@ Any static server works; open pages through it, not as `file://`, because the sc
 - **No inline scripts or styles**: `<script>` with `src` only, no `style=""`, no `onclick=""`. The CSP blocks them anyway.
 - **Treat input as hostile.** Put user text into the page with `textContent`, never `innerHTML`.
 - **Both languages.** Czech and English for every string; Battleships is the one English-only exception.
+- **Colours are tokens only.** Dark mode follows the OS setting by swapping the token values in `assets/style.css`, so a hard-coded colour breaks it. The one exception is output that must stay dark on light, like the QR code image.
 - **Use the design system** ([DESIGN.md](DESIGN.md)) instead of writing new CSS. If a tool truly needs its own rules, add a short section at the end of `assets/style.css` with classes prefixed by the tool's name (like `.ic-` for injection check).
+
+### Search
+
+The Search button in the rail (also Ctrl+K or `/`) searches zvondis.dev and every tool. `assets/search.js` and `search.json` are copies made by `npm run search` in the zvondis.dev repo, where the tool list lives (`src/_data/site.js`); don't edit them here. The index is served from this site so the CSP can keep `connect-src 'self'`.
 
 ### Page template
 
@@ -54,12 +61,20 @@ Any static server works; open pages through it, not as `file://`, because the sc
       content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
     <title>My Tool | Tools</title>
     <meta name="description" content="One sentence about the tool." />
     <link rel="canonical" href="https://tools.zvondis.dev/my-tool/" />
+    <link
+      rel="preload"
+      href="/assets/fonts/archivo-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="/assets/style.css" />
     <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+    <script src="/assets/search.js" defer></script>
     <script type="module" src="/my-tool/my-tool.js"></script>
   </head>
   <body>

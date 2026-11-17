@@ -1,0 +1,140 @@
+[
+  {
+    "cs": {
+      "title": "Domů",
+      "url": "https://zvondis.dev/",
+      "text": "Osobní stránka Tomáše Zvoníčka, student FIT VUT v Brně se zájmem o kyberbezpečnost a IT infrastrukturu."
+    },
+    "en": {
+      "title": "Home",
+      "url": "https://zvondis.dev/en/",
+      "text": "Personal site of Tomáš Zvoníček, Faculty of Information Technology student at Brno University of Technology, interested in cybersecurity and IT infrastructure."
+    }
+  },
+  {
+    "cs": {
+      "title": "CV",
+      "url": "https://zvondis.dev/cv",
+      "text": "Životopis Tomáše Zvoníčka, student FIT VUT v Brně: zkušenosti, technologie a dovednosti."
+    },
+    "en": {
+      "title": "CV",
+      "url": "https://zvondis.dev/en/cv",
+      "text": "CV of Tomáš Zvoníček, FIT BUT student in Brno: experience, technologies and skills."
+    }
+  },
+  {
+    "cs": {
+      "title": "Semestr",
+      "url": "https://zvondis.dev/semestr",
+      "text": "Přehled aktuálního semestru: termíny, zkouškové období a kalendář událostí."
+    },
+    "en": {
+      "title": "Semester",
+      "url": "https://zvondis.dev/en/semester",
+      "text": "Overview of the current academic semester: dates, exam periods and an event calendar."
+    }
+  },
+  {
+    "cs": {
+      "title": "Vybavení",
+      "url": "https://zvondis.dev/vybaveni",
+      "text": "Nástroje, software a hardware, se kterými Tomáš Zvoníček pracuje."
+    },
+    "en": {
+      "title": "Uses",
+      "url": "https://zvondis.dev/en/uses",
+      "text": "The tools, software and hardware Tomáš Zvoníček works with."
+    }
+  },
+  {
+    "cs": {
+      "title": "Soukromí",
+      "url": "https://zvondis.dev/soukromi",
+      "text": "Co tento web ukládá, co nesbírá a s kým komunikuje."
+    },
+    "en": {
+      "title": "Privacy",
+      "url": "https://zvondis.dev/en/privacy",
+      "text": "What this site stores, what it does not collect, and who it talks to."
+    }
+  },
+  {
+    "cs": {
+      "title": "Výplata",
+      "text": "Čistá výplata z brigády na DPP / DPČ.",
+      "keywords": "mzda plat",
+      "url": "https://tools.zvondis.dev/job-pay/?lang=cs"
+    },
+    "en": {
+      "title": "Job Pay",
+      "text": "Net pay from a DPP / DPČ student job.",
+      "keywords": "salary wage",
+      "url": "https://tools.zvondis.dev/job-pay/?lang=en"
+    }
+  },
+  {
+    "cs": {
+      "title": "Kontrola injekce",
+      "text": "Najde v textových souborech skryté pokyny pro AI.",
+      "url": "https://tools.zvondis.dev/injection-check/?lang=cs"
+    },
+    "en": {
+      "title": "Injection check",
+      "text": "Finds hidden AI instructions in text files.",
+      "url": "https://tools.zvondis.dev/injection-check/?lang=en"
+    }
+  },
+  {
+    "cs": {
+      "title": "QR kód",
+      "text": "Udělá z textu nebo odkazu QR kód ke stažení jako PNG nebo SVG.",
+      "url": "https://tools.zvondis.dev/qr/?lang=cs"
+    },
+    "en": {
+      "title": "QR Code",
+      "text": "Turns text or a link into a QR code to download as PNG or SVG.",
+      "url": "https://tools.zvondis.dev/qr/?lang=en"
+    }
+  },
+  {
+    "cs": {
+      "title": "Dekodér",
+      "text": "Formátuje JSON, převádí Base64 a čte JWT tokeny.",
+      "url": "https://tools.zvondis.dev/decode/?lang=cs"
+    },
+    "en": {
+      "title": "Decoder",
+      "text": "Formats JSON, converts Base64 and reads JWT tokens.",
+      "url": "https://tools.zvondis.dev/decode/?lang=en"
+    }
+  },
+  {
+    "cs": {
+      "title": "Kalkulačka podsítí",
+      "text": "Rozsah, maska a rozdělení sítě pro IPv4 i IPv6.",
+      "keywords": "ip cidr",
+      "url": "https://tools.zvondis.dev/subnet/?lang=cs"
+    },
+    "en": {
+      "title": "Subnet Calculator",
+      "text": "Range, mask and network splits for IPv4 and IPv6.",
+      "keywords": "ip cidr",
+      "url": "https://tools.zvondis.dev/subnet/?lang=en"
+    }
+  },
+  {
+    "cs": {
+      "title": "Lodě",
+      "text": "Hra o lodích a tipování (anglicky).",
+      "keywords": "hra",
+      "url": "https://tools.zvondis.dev/battleships/"
+    },
+    "en": {
+      "title": "Battleships",
+      "text": "A game of ships and guesses.",
+      "keywords": "game",
+      "url": "https://tools.zvondis.dev/battleships/"
+    }
+  }
+]

@@ -33,6 +33,18 @@
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Dark: the same page inverted, following the OS setting. Same values as zvondis.dev. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --paper: #0c0c0d;
+        --ink: #fafaf9;
+        --mute: #a0a3a9; /* 7.73:1 on paper */
+        --rule: #2b2d31;
+        --field: #7d8087; /* 4.94:1 on paper */
+        --accent: #8c9eff; /* 7.87:1 on paper */
+    }
+}
+
 @media (width >= 600px) {
     :root {
         --gutter: 32px;
@@ -89,7 +101,7 @@
 
 html {
     background: var(--paper);
-    color-scheme: light;
+    color-scheme: light dark;
     scrollbar-color: var(--mute) var(--paper);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -371,6 +383,65 @@ textarea {
     .nav-link {
         min-height: 30px;
     }
+}
+
+/* Search (assets/search.js): a button in the nav opens a field with results in flow under it.
+   The active result is marked by an ink bar and a heavier underline, not by colour. */
+.search-open {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.search-open[aria-expanded="true"] {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.search {
+    display: grid;
+    gap: 8px;
+    max-width: 480px;
+    margin-top: 12px;
+}
+
+.search-note {
+    color: var(--mute);
+    font-size: 0.8125rem;
+}
+
+.search-list a {
+    display: grid;
+    gap: 2px;
+    min-height: var(--target);
+    padding: 10px 0 10px 10px;
+    border-bottom: 1px solid var(--rule);
+    border-left: 2px solid transparent;
+    text-decoration: none;
+}
+
+.search-list b {
+    font-size: 0.9375rem;
+    text-decoration: underline;
+    text-decoration-color: var(--mute);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+}
+
+.search-list span {
+    color: var(--mute);
+    font-size: 0.8125rem;
+}
+
+.search-list [aria-selected="true"] a {
+    border-left-color: var(--ink);
+}
+
+.search-list [aria-selected="true"] b,
+.search-list a:hover b {
+    text-decoration-color: currentcolor;
+    text-decoration-thickness: 2px;
 }
 
 /* =========================================================================
