@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        <title>Decoder | Tools</title>
+        <meta name="description" content="Format and validate JSON, encode and decode Base64, read JWT tokens, right in your browser." />
+        <link rel="canonical" href="https://tools.zvondis.dev/decode/" />
+        <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="stylesheet" href="/assets/style.css" />
+        <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+        <script src="/assets/search.js" defer></script>
+        <script type="module" src="/decode/decode.js"></script>
+    </head>
+    <body>
+        <a class="skip" href="#main" data-t="skip">Skip to content</a>
+        <div class="frame">
+            <header class="rail">
+                <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+                <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
+                    <ul>
+                        <li><a href="/" class="nav-link" data-t="navTools">Tools</a></li>
+                        <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
+                    </ul>
+                    <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+                </nav>
+            </header>
+            <main id="main" class="main">
+                <header class="lead">
+                    <h1 data-t="h1">Decoder</h1>
+                    <p class="subtitle" data-t="subtitle">JSON, Base64 and JWT: format, encode and read tokens</p>
+                </header>
+                <div class="bands">
+                    <section class="band">
+                        <h2 data-t="formHeading">Input</h2>
+                        <form id="decForm" class="fields">
+                            <fieldset class="choices">
+                                <legend data-t="modeLabel">Mode</legend>
+                                <label class="choice"><input type="radio" name="mode" value="json" checked /> JSON</label>
+                                <label class="choice"><input type="radio" name="mode" value="base64" /> Base64</label>
+                                <label class="choice"><input type="radio" name="mode" value="jwt" /> JWT</label>
+                            </fieldset>
+                            <label class="field"
+                                ><span data-t="inLabel">Text to process</span>
+                                <textarea id="decIn" rows="8" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+                            </label>
+                            <label class="choice" data-mode="base64" hidden
+                                ><input type="checkbox" id="decUrl" /> <span data-t="urlSafe">Base64URL (URL-safe characters, no = padding)</span></label
+                            >
+                            <div class="actions" data-mode="json">
+                                <button type="button" class="button" data-action="format" data-t="format">Format</button>
+                                <button type="button" class="button button-outline" data-action="minify" data-t="minify">Minify</button>
+                                <button type="button" class="text-link" data-action="validate" data-t="validate">Validate</button>
+                            </div>
+                            <div class="actions" data-mode="base64" hidden>
+                                <button type="button" class="button" data-action="encode" data-t="encode">Encode</button>
+                                <button type="button" class="button button-outline" data-action="decode" data-t="decode">Decode</button>
+                            </div>
+                            <div class="actions" data-mode="jwt" hidden>
+                                <button type="button" class="button" data-action="jwt" data-t="jwtDecode">Decode token</button>
+                            </div>
+                        </form>
+                        <p class="note" data-t="privacy">Everything runs in your browser only; nothing is sent anywhere.</p>
+                    </section>
+                    <section class="band">
+                        <h2 data-t="resultHeading">Result</h2>
+                        <div aria-live="polite">
+                            <p class="error" id="decErr"></p>
+                            <p id="decMsg"></p>
+                            <div id="decJwt" hidden>
+                                <div class="result-row"><span data-t="rowAlg">Algorithm (alg)</span><span id="decAlg"></span></div>
+                                <div class="result-row"><span data-t="rowIat">Issued at (iat)</span><span id="dec-iat"></span></div>
+                                <div class="result-row"><span data-t="rowNbf">Not before (nbf)</span><span id="dec-nbf"></span></div>
+                                <div class="result-row"><span data-t="rowExp">Expires (exp)</span><span id="dec-exp"></span></div>
+                                <div class="result-row result-total"><span data-t="rowStatus">Status</span><span id="decStatus"></span></div>
+                            </div>
+                        </div>
+                        <button type="button" class="text-link" id="decShowErr" data-t="showErr" hidden>Show in input</button>
+                        <p data-mode="jwt" hidden><strong data-t="sigNote">The signature is NOT verified. The token is only read, so this does not tell you whether it is genuine.</strong></p>
+                        <label class="field" data-mode="jwt" hidden
+                            ><span data-t="headerLabel">Header</span>
+                            <textarea id="decHead" rows="4" readonly spellcheck="false"></textarea>
+                        </label>
+                        <label class="field"
+                            ><span id="decOutLabel">Output</span>
+                            <textarea id="decOut" rows="10" readonly spellcheck="false"></textarea>
+                        </label>
+                        <div class="actions">
+                            <button type="button" class="button button-outline" id="decCopy" data-t="copy" hidden>Copy output</button>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
