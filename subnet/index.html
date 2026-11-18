@@ -20,7 +20,7 @@
     </head>
     <body>
         <a class="skip" href="#main" data-t="skip">Skip to content</a>
-        <div class="frame">
+        <div class="frame frame-fit">
             <header class="rail">
                 <a class="mark" href="https://zvondis.dev/" data-main="home">Zvondis</a>
                 <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
@@ -46,7 +46,7 @@
                 </header>
                 <div class="bands">
                     <section class="band">
-                        <h2 data-t="v4Heading">IPv4</h2>
+                        <h2 id="v4Heading" data-t="v4Heading">IPv4</h2>
                         <form id="v4Form" class="fields">
                             <label class="field"
                                 ><span data-t="v4Label">Address with prefix or mask</span>
@@ -54,10 +54,10 @@
                             </label>
                         </form>
                         <p class="note" id="v4Note" data-t="v4Note">For example 192.168.1.10/24 or 192.168.1.10 255.255.255.0. Without a prefix, /32 is used.</p>
-                        <div id="v4Out" class="subnet-out" aria-live="polite"></div>
+                        <section id="v4Out" class="subnet-out panel" aria-labelledby="v4Heading" tabindex="0" aria-live="polite"></section>
                     </section>
                     <section class="band">
-                        <h2 data-t="splitHeading">Split</h2>
+                        <h2 id="splitHeading" data-t="splitHeading">Split</h2>
                         <form id="splitForm" class="fields">
                             <fieldset class="choices">
                                 <legend data-t="splitLegend">Split by</legend>
@@ -69,11 +69,11 @@
                                 <input type="number" id="splitIn" min="1" step="1" value="4" inputmode="numeric" />
                             </label>
                         </form>
-                        <div id="splitOut" class="subnet-out" aria-live="polite"></div>
+                        <section id="splitOut" class="subnet-out panel" aria-labelledby="splitHeading" tabindex="0" aria-live="polite"></section>
                         <p class="note" data-t="splitNote">Splits the network from the IPv4 field above. Lists at most 64 subnets.</p>
                     </section>
                     <section class="band">
-                        <h2 data-t="v6Heading">IPv6</h2>
+                        <h2 id="v6Heading" data-t="v6Heading">IPv6</h2>
                         <form id="v6Form" class="fields">
                             <label class="field"
                                 ><span data-t="v6Label">IPv6 address with prefix</span>
@@ -81,7 +81,7 @@
                             </label>
                         </form>
                         <p class="note" id="v6Note" data-t="v6Note">For example 2001:db8::1/64. Without a prefix, /128 is used. Zone IDs (%eth0) are not supported.</p>
-                        <div id="v6Out" class="subnet-out" aria-live="polite"></div>
+                        <section id="v6Out" class="subnet-out panel" aria-labelledby="v6Heading" tabindex="0" aria-live="polite"></section>
                         <p class="note" data-t="privacy">Everything is calculated in your browser; nothing is sent anywhere.</p>
                     </section>
                 </div>

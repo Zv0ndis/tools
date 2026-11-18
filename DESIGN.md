@@ -177,6 +177,10 @@ Below 960px everything is one column with a 16px gutter (32px from 600px). From 
 | `.lead`      | Page header: `h1` and `.subtitle`, from column 4                                  |
 | `.bands`     | Wrapper for the sections under the lead                                           |
 | `.band`      | One section: ink rule on top, its `h2` in the rail columns, content from column 4 |
+| `.frame-fit` | With `.frame` on a tool page: the one-screen layout below                          |
+| `.panel`     | Output that can grow: scrolls inside itself in the one-screen layout. Make it a `section` with `tabindex="0"` (so the keyboard can scroll it) and `aria-labelledby` pointing at its band's `h2`; on a `label.field` its textarea takes the free height instead |
+
+**One screen.** On a desktop at least 1200px wide and 940px tall (a maximised browser on a 1080p screen), a tool page (`.frame-fit`) never scrolls: the frame is exactly the viewport high, the rail spans both rows so the bands start 40px under the lead, and the bands stand side by side from column 4 (two take 4 + 5 columns, three take 3 each), each `h2` on top of its column. Output that can grow sits in a `.panel`, which is as tall as its content until the column is full and then scrolls inside itself (a textarea panel takes the free height, never under 120px). Below either size the page keeps the layout above and scrolls as usual. The index page does not use it.
 
 ## Elevation & Depth
 

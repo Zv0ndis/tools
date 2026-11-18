@@ -23,7 +23,7 @@
     </head>
     <body>
         <a class="skip" href="#main" data-t="skip">Skip to content</a>
-        <div class="frame">
+        <div class="frame frame-fit">
             <header class="rail">
                 <a class="mark" href="https://zvondis.dev/" data-main="home">Zvondis</a>
                 <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
@@ -64,8 +64,8 @@
                         <p class="note" data-t="privacy">The check runs in your browser only; nothing is uploaded.</p>
                     </section>
                     <section class="band">
-                        <h2 data-t="resultHeading">Result</h2>
-                        <div id="icResults" aria-live="polite"></div>
+                        <h2 id="icResultHeading" data-t="resultHeading">Result</h2>
+                        <section id="icResults" class="panel" aria-labelledby="icResultHeading" tabindex="0" aria-live="polite"></section>
                         <div id="icDownload" class="actions" hidden>
                             <button type="button" class="button" id="icDlTxt" data-t="dlTxt">Download .txt</button>
                             <button type="button" class="button button-outline" id="icDlMd" data-t="dlMd">Download .md</button>

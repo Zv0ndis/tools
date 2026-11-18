@@ -87,7 +87,7 @@ The rail's theme switch (Tmavý / Světlý, Dark / Light) overrides the OS light
   </head>
   <body>
     <a class="skip" href="#main" data-t="skip">Skip to content</a>
-    <div class="frame">
+    <div class="frame frame-fit">
       <header class="rail">
         <a class="mark" href="https://zvondis.dev/" data-main="home">Zvondis</a>
         <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
@@ -117,8 +117,8 @@ The rail's theme switch (Tmavý / Světlý, Dark / Light) overrides the OS light
             <form id="form" class="fields">…</form>
           </section>
           <section class="band">
-            <h2 data-t="resultHeading">Result</h2>
-            <div id="result" aria-live="polite"></div>
+            <h2 id="resultHeading" data-t="resultHeading">Result</h2>
+            <section id="result" class="panel" aria-labelledby="resultHeading" tabindex="0" aria-live="polite"></section>
             <p class="note" data-t="note">Limits and caveats.</p>
           </section>
         </div>

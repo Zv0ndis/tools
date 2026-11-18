@@ -20,7 +20,7 @@
     </head>
     <body>
         <a class="skip" href="#main" data-t="skip">Skip to content</a>
-        <div class="frame">
+        <div class="frame frame-fit">
             <header class="rail">
                 <a class="mark" href="https://zvondis.dev/" data-main="home">Zvondis</a>
                 <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
@@ -91,11 +91,11 @@
                         </div>
                         <button type="button" class="text-link" id="decShowErr" data-t="showErr" hidden>Show in input</button>
                         <p data-mode="jwt" hidden><strong data-t="sigNote">The signature is NOT verified. The token is only read, so this does not tell you whether it is genuine.</strong></p>
-                        <label class="field" data-mode="jwt" hidden
+                        <label class="field panel" data-mode="jwt" hidden
                             ><span data-t="headerLabel">Header</span>
                             <textarea id="decHead" rows="4" readonly spellcheck="false"></textarea>
                         </label>
-                        <label class="field"
+                        <label class="field panel"
                             ><span id="decOutLabel">Output</span>
                             <textarea id="decOut" rows="10" readonly spellcheck="false"></textarea>
                         </label>

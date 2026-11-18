@@ -339,6 +339,78 @@ textarea {
     }
 }
 
+/* One screen: on a large desktop a tool page (.frame-fit) never scrolls. The rail spans both rows so
+   the bands start right under the lead, the bands stand side by side as columns with the h2 on top,
+   and output that can grow (.panel) scrolls inside itself. Smaller screens scroll the page as above. */
+@media (width >= 1200px) and (height >= 940px) {
+    .frame-fit {
+        height: 100dvh;
+        padding-bottom: 40px;
+        grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .frame-fit .rail {
+        grid-row: 1 / span 2;
+    }
+
+    .frame-fit .main,
+    .frame-fit .bands {
+        min-height: 0;
+    }
+
+    .frame-fit .bands {
+        grid-column: 4 / -1;
+        grid-template-rows: minmax(0, 1fr);
+        margin-top: 40px;
+    }
+
+    /* Two bands take 4 + 5 columns, three take 3 each. */
+    .frame-fit .band {
+        display: flex;
+        flex-direction: column;
+        grid-column: span 4;
+        min-height: 0;
+    }
+
+    .frame-fit .band:last-child {
+        grid-column: span 5;
+    }
+
+    .frame-fit .band:nth-last-child(3),
+    .frame-fit .band:nth-last-child(3) ~ .band {
+        grid-column: span 3;
+    }
+
+    .frame-fit .band + .band {
+        margin-top: 0;
+    }
+
+    .frame-fit .band > h2 {
+        margin: 0 0 16px;
+    }
+
+    /* Content high until the column is full, then it scrolls. No floor, so a one-line result leaves no gap. */
+    .frame-fit .panel {
+        flex: 0 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    /* A field as a panel: it takes the free height and its textarea fills it, never under three lines. */
+    .frame-fit label.panel {
+        flex-grow: 1;
+        min-height: 7.5rem;
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: visible;
+    }
+
+    .frame-fit label.panel > textarea {
+        height: 100%;
+        resize: none;
+    }
+}
+
 /* =========================================================================
    Nav: vertical in the rail on desktop, a row under the mark on phones.
    The current page is ink and bold (aria-current), never coloured.
