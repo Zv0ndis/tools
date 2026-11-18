@@ -159,7 +159,7 @@ Tool CSS and scripts use the tokens, never a fixed colour, or they break in dark
 
 ### Named Rules
 
-**The Weight Clash Rule.** Emphasis is weight. No second family, no italics, no all-caps labels, no colour.
+**The Weight Clash Rule.** Emphasis is weight. No second family, no italics, no all-caps labels (the search switcher's small site tag is the one exception), no colour.
 
 **Tabular Figures.** Money, counts and inputs use tabular-nums; `.result-row` values and every text input already do.
 
@@ -180,7 +180,7 @@ Below 960px everything is one column with a 16px gutter (32px from 600px). From 
 
 ## Elevation & Depth
 
-Flat. No shadows, no blur, no layered surfaces. Hierarchy comes from scale, weight and the ink band rules.
+Flat. No shadows, no blur. The one layered surface is the search switcher, a flat panel with a 1px ink frame over a `--scrim` dim. Hierarchy comes from scale, weight and the ink band rules.
 
 ## Shapes
 
@@ -201,7 +201,7 @@ Square by default. Buttons, inputs and the file picker take a 2px radius; nothin
 
 On desktop the links stack at a 30px rhythm for mouse users and 44px on touch. On phones they sit in a row under the mark, each 44px tall.
 
-**Search** (`assets/search.js`, same file as on zvondis.dev): the script adds a `.search-open` button to the nav list. It opens `.search` in flow under the nav: a labelled combobox field, a `role="status"` count, the `.search-list` listbox and a mute key hint. The active result gets an ink bar on the left and a 2px underline, never a colour. Ctrl+K and `/` open it, arrows choose, Enter opens, Esc closes.
+**Search** (`assets/search.js`, same file as on zvondis.dev, where its full description lives in DESIGN.md): the script adds a `.search-open` button to the nav list. It, Ctrl+K / Cmd+K and `/` open `.switcher`, a modal `<dialog>` quick switcher near the top of the page: a 1px ink framed paper panel over a `--scrim` dim (no shadow), a large field (the only rounded shape) with "Kam chceš jít?" / "Where to?", results grouped under "Stránky" / "Pages" and "Nástroje" / "Tools" (everything when the query is empty), each row a name, a one-line mute description and the site ("zvondis.dev" or "tools") right-aligned in small uppercase, the one all-caps label here. The active row is an ink-tinted band with an ink bar and a bold name, never a colour alone. Arrows or hover choose, Enter opens; Ctrl+K again, Esc or a backdrop click close and focus returns. A footer shows the keys in square boxes. `--scrim` is set with the tokens in both themes.
 
 ### Fields
 
