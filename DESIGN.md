@@ -172,7 +172,7 @@ Below 960px everything is one column with a 16px gutter (32px from 600px). From 
 | `.skip`      | "Skip to content" link, first in `body`, visible only on keyboard focus            |
 | `.frame`     | Page wrapper: gutters, and the 12-column grid from 960px                          |
 | `.rail`      | Columns 1 to 3: `.mark`, `.rail-nav`                                              |
-| `.mark`      | The "Zvondis" wordmark, a link home to zvondis.dev (`data-home` sets the language) |
+| `.mark`      | The "Zvondis" wordmark, a link home to zvondis.dev (`data-main="home"` sets the language) |
 | `.main`      | `<main id="main">`, the content area                                              |
 | `.lead`      | Page header: `h1` and `.subtitle`, from column 4                                  |
 | `.bands`     | Wrapper for the sections under the lead                                           |

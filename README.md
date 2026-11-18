@@ -89,9 +89,14 @@ The rail's theme switch (Tmavý / Světlý, Dark / Light) overrides the OS light
     <a class="skip" href="#main" data-t="skip">Skip to content</a>
     <div class="frame">
       <header class="rail">
-        <a class="mark" href="https://zvondis.dev/" data-home>Zvondis</a>
+        <a class="mark" href="https://zvondis.dev/" data-main="home">Zvondis</a>
         <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
           <ul>
+            <li><a href="https://zvondis.dev/" class="nav-link" data-main="home" data-t="navHome">Home</a></li>
+            <li><a href="https://zvondis.dev/cv" class="nav-link" data-main="cv" data-t="navCv">CV</a></li>
+            <li><a href="https://zvondis.dev/semestr" class="nav-link" data-main="semester" data-t="navSemester">Semester</a></li>
+            <li><a href="https://zvondis.dev/vybaveni" class="nav-link" data-main="uses" data-t="navUses">Uses</a></li>
+            <li><a href="https://zvondis.dev/soukromi" class="nav-link" data-main="privacy" data-t="navPrivacy">Privacy</a></li>
             <li><a href="/" class="nav-link" data-t="navTools">Tools</a></li>
             <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
           </ul>
