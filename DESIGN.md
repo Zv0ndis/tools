@@ -101,7 +101,7 @@ tools.zvondis.dev inherits the zvondis.dev design system and changes nothing in 
 
 - One family (Archivo, variable, self-hosted), contrast by weight: an 800 headline against a 400 mute subtitle, 700 for labels and anything current.
 - No accent colour in the content. The blue appears only as the keyboard focus ring.
-- A rail in columns 1 to 3 on desktop with the Zvondis mark, the nav and the CZ / EN switch; on phones the mark and the switch share a line and the links wrap below.
+- A rail in columns 1 to 3 on desktop with the Zvondis mark, the nav and the theme and CZ / EN switches; on phones the mark and the switches share a line and the links wrap below.
 - Bands opened by a 1px ink rule, rows split by 1px hairlines.
 - 2px corners on buttons and inputs only.
 
@@ -123,7 +123,9 @@ Near-white paper, near-black ink, one grey for secondary text, one grey for inpu
 
 ### Dark
 
-The pages follow the OS setting (`prefers-color-scheme: dark`); there is no toggle and nothing is stored. Dark is the same page inverted, with the same values as zvondis.dev: the tokens keep their names and roles, only their values change, so no component or tool has its own dark rule. Pages declare `<meta name="color-scheme" content="light dark">` so native controls and scrollbars follow. The favicon mark inverts the same way.
+The pages follow the OS setting (`prefers-color-scheme: dark`) until the visitor picks a theme with the rail switch, which stores `theme` (`light` or `dark`) in this site's local storage and puts it on `<html data-theme>`. Dark is the same page inverted, with the same values as zvondis.dev: the tokens keep their names and roles, only their values change, so no component or tool has its own dark rule. Pages declare `<meta name="color-scheme" content="light dark">` so native controls and scrollbars follow. The favicon mark keeps following the OS. The dark values sit in two identical blocks, `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` and `:root[data-theme="dark"]`; keep them in step.
+
+`assets/theme.js` (a copy from zvondis.dev, made by `npm run search` there; don't edit it here) is a classic blocking script in `<head>`, before the stylesheet, so a stored choice is applied before the first paint. Every page loads it there. Battleships has its own stylesheet and does not load it, so it keeps following the OS.
 
 | Token  | Light   | Dark    | Dark ratio on paper |
 | ------ | ------- | ------- | ------------------- |
@@ -193,7 +195,9 @@ Square by default. Buttons, inputs and the file picker take a 2px radius; nothin
 | `.rail-nav`              | `<nav>` holding a `ul` of links and the language switch                               |
 | `.nav-link`              | One link: 15px mute, ink and underlined on hover                                      |
 | `.nav-link[aria-current="page"]` | The page you are on: ink and bold. Set it on the exact page only, as zvondis.dev does |
-| `.lang-switch`           | The CZ / EN `<button id="lang">`, top right of the rail. `lang.js` sets its text and label |
+| `.rail-switches`         | Top right of the rail: the theme switch, then the language switch                     |
+| `.theme-switch`          | `<button data-theme-toggle hidden>`. `theme.js` shows it and names the theme it switches to ("Tmavý" / "Dark" on a light page, "Světlý" / "Light" on a dark one), relabelling when the language changes |
+| `.lang-switch`           | The CZ / EN `<button id="lang">`. `lang.js` sets its text and label |
 
 On desktop the links stack at a 30px rhythm for mouse users and 44px on touch. On phones they sit in a row under the mark, each 44px tall.
 

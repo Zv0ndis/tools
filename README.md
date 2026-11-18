@@ -11,7 +11,7 @@ Small tools and games at **[tools.zvondis.dev](https://tools.zvondis.dev)**, a s
 | `/decode/`          | JSON format and check, Base64, JWT reading                     |
 | `/subnet/`          | IPv4 and IPv6 subnet calculator                                |
 | `/battleships/`     | Client of the Battleships game; published from a separate repo |
-| `/assets/`          | Shared stylesheet, `lang.js`, Archivo font, favicon            |
+| `/assets/`          | Shared stylesheet, `lang.js`, `theme.js`, Archivo font, favicon |
 | `/search.json`      | Search index, copied from zvondis.dev (see Search below)       |
 
 ## Contributing
@@ -52,6 +52,10 @@ Any static server works; open pages through it, not as `file://`, because the sc
 
 The Search button in the rail (also Ctrl+K or `/`) searches zvondis.dev and every tool. `assets/search.js` and `search.json` are copies made by `npm run search` in the zvondis.dev repo, where the tool list lives (`src/_data/site.js`); don't edit them here. The index is served from this site so the CSP can keep `connect-src 'self'`.
 
+### Theme
+
+The rail's theme switch (Tmavý / Světlý, Dark / Light) overrides the OS light or dark setting and remembers the choice in local storage. `assets/theme.js` is a copy made by `npm run search` in the zvondis.dev repo; don't edit it here. Load it as in the template below: a plain `<script>` (no `defer`, no `type="module"`) right before the stylesheet, so the stored theme is set before the first paint.
+
 ### Page template
 
 ```html
@@ -75,6 +79,7 @@ The Search button in the rail (also Ctrl+K or `/`) searches zvondis.dev and ever
       type="font/woff2"
       crossorigin
     />
+    <script src="/assets/theme.js"></script>
     <link rel="stylesheet" href="/assets/style.css" />
     <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
     <script src="/assets/search.js" defer></script>
@@ -90,7 +95,10 @@ The Search button in the rail (also Ctrl+K or `/`) searches zvondis.dev and ever
             <li><a href="/" class="nav-link" data-t="navTools">Tools</a></li>
             <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
           </ul>
-          <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+          <div class="rail-switches">
+            <button type="button" class="theme-switch" data-theme-toggle hidden>Dark</button>
+            <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+          </div>
         </nav>
       </header>
       <main id="main" class="main">

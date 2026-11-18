@@ -12,6 +12,7 @@
         <meta name="description" content="Small browser tools and games." />
         <link rel="canonical" href="https://tools.zvondis.dev/" />
         <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+        <script src="/assets/theme.js"></script>
         <link rel="stylesheet" href="/assets/style.css" />
         <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
         <script src="/assets/search.js" defer></script>
@@ -27,7 +28,10 @@
                         <li><a href="/" class="nav-link" data-t="navTools" aria-current="page">Tools</a></li>
                         <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
                     </ul>
-                    <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+                    <div class="rail-switches">
+                        <button type="button" class="theme-switch" data-theme-toggle hidden>Dark</button>
+                        <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+                    </div>
                 </nav>
             </header>
             <main id="main" class="main">
