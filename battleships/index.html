@@ -14,9 +14,18 @@
 </head>
 <body>
   <header class="masthead">
-    <a class="zv-mark" href="https://zvondis.dev">Zvondis</a>
-    <a class="zv-link" href="https://tools.zvondis.dev/">Tools</a>
-    <a class="brand" href="./">Battleships</a>
+    <a class="zv-mark" href="https://zvondis.dev/">Zvondis</a>
+    <nav class="site-nav" aria-label="Pages">
+      <ul>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/">Home</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/cv">CV</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/semestr">Semester</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/vybaveni">Uses</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/soukromi">Privacy</a></li>
+        <li><a class="nav-link zv-link" href="https://tools.zvondis.dev/">Tools</a></li>
+        <li><a class="nav-link brand" href="./" aria-current="page">Battleships</a></li>
+      </ul>
+    </nav>
     <p class="status" id="status" aria-live="polite"></p>
   </header>
 
@@ -27,13 +36,26 @@
         <h1>Sink the enemy fleet <span class="h1-light">before they sink yours.</span></h1>
         <p class="lede">Open a game, send the link to a friend, and take turns firing across a 10&times;10 chart. Ships stay hidden on the server, so nobody can peek.</p>
         <button class="btn btn-primary" id="new-game" type="button">New game</button>
-        <ul class="fleet-legend" aria-label="Fleet">
-          <li><span class="hull" data-len="5"></span><span class="dock-name">Carrier</span><span class="dock-meta">5 cells</span></li>
-          <li><span class="hull" data-len="4"></span><span class="dock-name">Battleship</span><span class="dock-meta">4 cells</span></li>
-          <li><span class="hull" data-len="3"></span><span class="dock-name">Cruiser</span><span class="dock-meta">3 cells</span></li>
-          <li><span class="hull" data-len="3"></span><span class="dock-name">Submarine</span><span class="dock-meta">3 cells</span></li>
-          <li><span class="hull" data-len="2"></span><span class="dock-name">Destroyer</span><span class="dock-meta">2 cells</span></li>
-        </ul>
+      </div>
+      <div class="bands">
+        <section class="band">
+          <h2>Fleet</h2>
+          <ul class="fleet-legend" aria-label="Fleet">
+            <li><span class="hull" data-len="5"></span><span class="dock-name">Carrier</span><span class="dock-meta">5 cells</span></li>
+            <li><span class="hull" data-len="4"></span><span class="dock-name">Battleship</span><span class="dock-meta">4 cells</span></li>
+            <li><span class="hull" data-len="3"></span><span class="dock-name">Cruiser</span><span class="dock-meta">3 cells</span></li>
+            <li><span class="hull" data-len="3"></span><span class="dock-name">Submarine</span><span class="dock-meta">3 cells</span></li>
+            <li><span class="hull" data-len="2"></span><span class="dock-name">Destroyer</span><span class="dock-meta">2 cells</span></li>
+          </ul>
+        </section>
+        <section class="band">
+          <h2>Rules</h2>
+          <ol class="rules">
+            <li>Place the five ships across or down. They may not overlap or touch, not even at a corner.</li>
+            <li>Take turns firing. A hit earns another shot, a miss passes the turn.</li>
+            <li>The first to sink the whole enemy fleet wins.</li>
+          </ol>
+        </section>
       </div>
     </section>
 

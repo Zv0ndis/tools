@@ -64,7 +64,6 @@
 /* ink-half tokens */
 #enemy-chart,
 .dock,
-.fleet-legend,
 .banner[data-tone="mine"],
 .banner[data-tone="won"],
 .banner[data-tone="wait"] {
@@ -146,64 +145,73 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22e
 .status:empty { display: none; }
 .status[data-tone="bad"] { font-weight: 700; color: var(--ink); }
 
-/* ---------- Message screens: paper with one heavy ink field ---------- */
+/* ---------- Message screens: the zvondis.dev page frame ----------
+   Outside a game the masthead becomes the site rail (mark, the site's pages, status under them)
+   and the screen reads like a tools.zvondis.dev page: lead, then ruled bands. On a large desktop
+   it is one screen with the bands side by side. */
 
-#landing, #notice, #waiting {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto 1fr;
-  min-height: calc(100svh - var(--mast));
-}
-.landing-card { display: contents; }
-.landing-card > h1, .landing-card > .lede, .landing-card > .btn, .share {
-  grid-column: 1;
-  justify-self: start;
-  margin-inline: var(--gutter);
-  max-width: 34rem;
-}
-.landing-card > h1 { grid-row: 1; margin-top: 56px; margin-bottom: 20px; }
-.landing-card > .lede { grid-row: 2; margin-bottom: 32px; }
-.landing-card > .btn, .share { grid-row: 3; }
-.share { justify-self: stretch; }
+body:not([data-screen="game"]) { padding: 0 var(--gutter) 64px; }
+body[data-screen="game"] .site-only { display: none; }
 
-#notice::after, #waiting::after {
-  content: "";
-  grid-row: 4;
-  min-height: 120px;
-  margin-top: 56px;
-  background: var(--ink);
+body:not([data-screen="game"]) .masthead {
+  display: block;
+  position: relative;
+  min-height: 0;
+  padding: 20px 0 8px;
+  border: 0;
 }
+body:not([data-screen="game"]) .zv-mark { min-height: 44px; font-weight: 700; }
+.nav-link { display: inline-flex; align-items: center; font-size: 0.9375rem; text-decoration: none; }
+.nav-link:hover { text-decoration: underline; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 0 24px; }
+body:not([data-screen="game"]) .site-nav { margin-top: 4px; }
+body:not([data-screen="game"]) .site-nav ul { display: grid; grid-template-columns: repeat(3, max-content); }
+body:not([data-screen="game"]) .nav-link {
+  min-height: 44px;
+  font-weight: 400;
+  color: var(--mute);
+}
+body:not([data-screen="game"]) .nav-link:hover { color: var(--ink); }
+body:not([data-screen="game"]) .nav-link[aria-current="page"] { font-weight: 700; color: var(--ink); }
+body:not([data-screen="game"]) .status { margin: 4px 0 0; padding: 0; }
+
+.landing-card { padding-top: 24px; }
+.landing-card > .btn, .share { margin-top: 32px; }
+.share { max-width: 40rem; }
 
 h1 {
-  font-size: clamp(2.5rem, 7.4vw, 3.25rem);
+  font-size: clamp(2.5rem, 4.6vw + 0.5rem, 4.5rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
   text-wrap: balance;
 }
-h1 .h1-light { display: block; font-weight: 300; }
+h1 .h1-light { display: block; font-weight: 300; color: var(--accent); }
 
 .lede {
-  max-width: 44ch;
+  max-width: 52ch;
+  margin-top: 20px;
   font-size: 1.25rem;
   line-height: 1.45;
   color: var(--mute);
 }
 .lede:empty { display: none; }
 
-/* the fleet sits in the ink field */
-.fleet-legend {
-  grid-row: 4;
-  margin-top: 56px;
-  padding: 40px var(--gutter);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: var(--ground);
-  color: var(--fg);
+.bands { display: grid; gap: 64px; margin-top: 64px; }
+.band { border-top: 1px solid var(--ink); padding-top: 14px; }
+.band > h2 { margin-bottom: 16px; font-size: 0.9375rem; font-weight: 700; line-height: 1.4; }
+
+.fleet-legend li { font-weight: 700; }
+.rules { counter-reset: rule; }
+.rules li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.5;
 }
-.fleet-legend li:first-child { border-top: 1px solid var(--fg); }
-.fleet-legend li { width: min(100%, 34rem); font-weight: 700; }
+.rules li::before { counter-increment: rule; content: counter(rule); font-weight: 700; }
 
 .hull {
   display: block;
@@ -216,20 +224,25 @@ h1 .h1-light { display: block; font-weight: 300; }
 .hull[data-len="4"] { --len: 4; }
 .hull[data-len="5"] { --len: 5; }
 
-@media (min-width: 800px) {
-  #landing, #notice, #waiting {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr auto auto auto 1fr;
+@media (min-width: 960px) {
+  body:not([data-screen="game"]) {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
   }
-  .landing-card > h1 { grid-row: 2; margin-top: 0; }
-  .landing-card > .lede { grid-row: 3; }
-  .landing-card > .btn, .share { grid-row: 4; }
-  #notice::after, #waiting::after, .fleet-legend {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    margin: 0;
-  }
-  h1 { font-size: clamp(2.25rem, 3.7vw, 3.75rem); }
+  body:not([data-screen="game"]) .masthead { grid-column: 1 / 4; padding-top: 36px; }
+  body:not([data-screen="game"]) .site-nav { margin-top: 16px; }
+  body:not([data-screen="game"]) .site-nav ul { grid-template-columns: none; }
+  body:not([data-screen="game"]) main { grid-column: 4 / -1; }
+  .landing-card { padding-top: 42px; }
+  .bands { grid-template-columns: 5fr 4fr; gap: 24px; margin-top: 88px; }
+}
+@media (min-width: 960px) and (pointer: fine) {
+  body:not([data-screen="game"]) .nav-link { min-height: 30px; }
+}
+@media (min-width: 1200px) and (min-height: 940px) {
+  .bands { margin-top: 56px; }
 }
 
 /* ---------- Buttons and fields ---------- */

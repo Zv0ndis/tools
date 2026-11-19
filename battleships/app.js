@@ -24,6 +24,7 @@ const store = {
 };
 
 function show(id) {
+  document.body.dataset.screen = id; // the game drops the site rail for a slim masthead
   for (const s of document.querySelectorAll(".screen")) s.hidden = s.id !== id;
 }
 
