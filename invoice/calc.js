@@ -1,7 +1,10 @@
 // Pure helpers for the invoice page; checked by `node invoice/selfcheck.mjs`.
 
 // "1 500,50" and "1500.5" both mean 1500.5; spaces (also non-breaking) are thousands separators.
-const clean = (v) => String(v ?? "").replace(/[\s\u00a0]/g, "").replace(",", ".");
+const clean = (v) =>
+    String(v ?? "")
+        .replace(/[\s\u00a0]/g, "")
+        .replace(",", ".");
 
 // Empty counts as valid (it is simply 0); anything else must be a plain number.
 export const isNum = (v) => clean(v) === "" || /^-?\d+(\.\d+)?$/.test(clean(v));
@@ -21,8 +24,7 @@ export function nextNumber(n) {
     return String(n).replace(/(\d+)(?!.*\d)/, (d) => String(Number(d) + 1).padStart(d.length, "0"));
 }
 
-export const isoDate = (d) =>
-    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+export const isoDate = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 export function addDays(iso, days) {
     const [y, m, d] = iso.split("-").map(Number);

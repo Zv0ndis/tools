@@ -11,7 +11,8 @@ const copy = {
         invoiceHeading: "Faktura",
         payHeading: "Platba",
         logoHeading: "Logo",
-        logoLabel: "Obrázek (nepovinné)",
+        logoAdd: "Přidat logo",
+        logoChange: "Změnit logo",
         logoRemove: "Odebrat logo",
         fromLabel: "Dodavatel",
         toLabel: "Odběratel",
@@ -43,7 +44,7 @@ const copy = {
         forgetTemplate: "Zapomenout šablonu",
         templateSaved: "Šablona uložena. „Obnovit šablonu“ ji vrátí s dnešním datem.",
         templateForgotten: "Šablona zapomenuta.",
-        privacy: "Vše zůstává v tomto prohlížeči. Formulář se tu uchová, dokud ho nevymažete.",
+        privacy: "Vše zůstává v tomto prohlížeči.",
         previewHeading: "Náhled",
         itemDesc: "Popis",
         itemQty: "Množství",
@@ -75,7 +76,8 @@ const copy = {
         invoiceHeading: "Invoice",
         payHeading: "Payment",
         logoHeading: "Logo",
-        logoLabel: "Image (optional)",
+        logoAdd: "Add logo",
+        logoChange: "Change logo",
         logoRemove: "Remove logo",
         fromLabel: "From",
         toLabel: "Bill to",
@@ -107,7 +109,7 @@ const copy = {
         forgetTemplate: "Forget template",
         templateSaved: "Template saved. “Reset to template” brings it back with today's date.",
         templateForgotten: "Template forgotten.",
-        privacy: "Everything stays in this browser. The form is kept here until you clear it.",
+        privacy: "Everything stays in this browser.",
         previewHeading: "Preview",
         itemDesc: "Description",
         itemQty: "Quantity",
@@ -281,7 +283,7 @@ function refreshForm() {
 function fillForm() {
     for (const k of ["from", "to", "number", "currency", "date", "due", "tax", "payment", "notes"]) form.elements[k].value = state[k];
     $("logo").value = "";
-    $("logoRemove").hidden = !state.logo;
+    syncLogo();
     renderItems();
 }
 
@@ -357,7 +359,18 @@ function renderSheet() {
     }
 
     sheet.replaceChildren(head, parties, table, sums, foot);
+    fitSheet();
 }
+
+// The preview is a real A4 page (794px at 96 dpi), scaled down to the column so it never needs scrolling.
+const fit = document.querySelector(".inv-fit");
+function fitSheet() {
+    const sheet = $("sheet");
+    const scale = Math.min(1, fit.clientWidth / 794);
+    sheet.style.transform = `scale(${scale})`;
+    fit.style.height = `${Math.floor(sheet.offsetHeight * scale)}px`;
+}
+new ResizeObserver(fitSheet).observe(fit);
 
 function update() {
     save();
@@ -378,13 +391,18 @@ form.addEventListener("input", (e) => {
     update();
 });
 
+function syncLogo() {
+    $("logoRemove").hidden = !state.logo;
+    $("logoPick").textContent = state.logo ? m.logoChange : m.logoAdd;
+}
+$("logoPick").addEventListener("click", () => $("logo").click());
 $("logo").addEventListener("change", () => {
     const file = $("logo").files[0];
     if (!file) return;
     const r = new FileReader();
     r.onload = () => {
         state.logo = r.result;
-        $("logoRemove").hidden = false;
+        syncLogo();
         update();
     };
     r.readAsDataURL(file);
@@ -393,6 +411,7 @@ $("logoRemove").addEventListener("click", () => {
     state.logo = "";
     fillForm();
     update();
+    $("logoPick").focus();
 });
 function addItem() {
     state.items.push({ desc: "", qty: "1", rate: "" });
@@ -448,8 +467,14 @@ $("print").addEventListener("click", () => {
 
 initLang(copy, (l) => {
     m = copy[l];
-    for (const [k, key] of [["from", "fromPh"], ["to", "toPh"], ["payment", "payPh"]]) form.elements[k].placeholder = m[key];
+    for (const [k, key] of [
+        ["from", "fromPh"],
+        ["to", "toPh"],
+        ["payment", "payPh"],
+    ])
+        form.elements[k].placeholder = m[key];
     syncTemplateButtons();
+    syncLogo();
     $("tplStatus").textContent = "";
     renderItems();
     renderSheet();

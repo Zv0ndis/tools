@@ -1026,31 +1026,9 @@ input[type="checkbox"] {
    Tool: Invoice (.inv-*), sheet built by invoice/invoice.js
    ========================================================================= */
 
-/* The form reads in the order of the invoice: groups split by a hairline, each named by its legend. */
-.inv-form {
+/* Three columns: who, what, and the page itself. Pairs of fields stack when a column is narrow. */
+.inv .band {
     container-type: inline-size;
-}
-
-.inv-group {
-    display: grid;
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-
-.inv-group + .inv-group {
-    margin-top: 28px;
-    border-top: 1px solid var(--rule);
-    padding-top: 20px;
-}
-
-.inv-group > legend {
-    float: left; /* puts the legend inside the grid's flow, so gap applies under it */
-    width: 100%;
-    padding: 0;
-    font-size: 1.0625rem;
-    font-weight: 700;
 }
 
 .inv-row {
@@ -1059,13 +1037,37 @@ input[type="checkbox"] {
     gap: 16px 12px;
 }
 
-.inv-hint {
-    margin-top: -6px;
+/* A column's fields, spaced like .fields; the column scrolls only on a screen too small for it. */
+.inv-col {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+}
+
+.inv .band:first-child .inv-col {
+    gap: 12px;
+}
+
+/* Text boxes grow with what is typed (where the browser can), from three to eight lines. */
+.inv textarea {
+    field-sizing: content;
+    min-height: calc(3lh + 18px);
+    max-height: calc(8lh + 18px); /* longer text scrolls inside the box, so the column still fits */
+    resize: none;
+}
+
+.inv-col > .inv-hint {
+    margin-top: -8px;
+}
+
+.inv-col > .inv-items {
+    margin-top: 8px;
 }
 
 .inv-items {
     display: grid;
-    gap: 16px;
+    align-content: start;
+    gap: 12px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -1073,17 +1075,17 @@ input[type="checkbox"] {
 
 .inv-item {
     display: grid;
-    gap: 10px;
+    gap: 8px;
 }
 
 .inv-item + .inv-item {
     border-top: 1px solid var(--rule);
-    padding-top: 16px;
+    padding-top: 12px;
 }
 
 .inv-nums {
     display: grid;
-    grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1fr) auto;
+    grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr) auto;
     gap: 12px;
     align-items: end;
 }
@@ -1092,28 +1094,58 @@ input[type="checkbox"] {
     display: flex;
     align-items: center;
     min-height: var(--target);
-    font-weight: 400;
     font-size: 1.0625rem;
+    font-weight: 400;
     font-variant-numeric: tabular-nums;
 }
 
 .inv-remove {
-    font-weight: 400;
     color: var(--mute);
+    font-weight: 400;
 }
 
+/* Tax is typed inside its own total row. */
 .inv-tax {
-    max-width: 10rem;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.inv-tax input {
+    width: 5rem;
+    min-height: 36px;
+    padding: 4px 10px;
+}
+
+.inv-sum .result-row:has(.inv-tax) {
+    align-items: center;
+    padding: 6px 0;
 }
 
 /* An invalid number: a heavier ink border plus the written error under it, never colour. */
-.inv-form [aria-invalid] {
+.inv [aria-invalid] {
     border-color: var(--ink);
     box-shadow: inset 0 0 0 1px var(--ink);
 }
 
 .inv-status:empty {
     display: none;
+}
+
+/* The A4 sheet is drawn at full size and scaled to the column by invoice.js. */
+.inv-preview {
+    flex-shrink: 0;
+}
+
+.inv-fit {
+    overflow: hidden;
+}
+
+.inv-sheet {
+    width: 794px;
+    min-height: 1123px;
+    transform-origin: 0 0;
 }
 
 @container (width < 420px) {
@@ -1133,8 +1165,7 @@ input[type="checkbox"] {
 
 /* The sheet is paper in both themes, like the QR image: fixed colours on purpose. */
 .inv-sheet {
-    min-height: 100%;
-    padding: 40px 36px;
+    padding: 53px; /* 14 mm, the print margin */
     background: #fff;
     color: #333;
     font-family: helvetica, arial, sans-serif;
@@ -1262,50 +1293,6 @@ input[type="checkbox"] {
     margin-top: 16px;
 }
 
-/* A narrow preview (phones) keeps the sheet's layout, only tighter. */
-.inv-preview {
-    container-type: inline-size;
-}
-
-@container (width < 560px) {
-    .inv-sheet {
-        padding: 20px 16px;
-        font-size: 0.6875rem;
-    }
-
-    .inv-word {
-        font-size: 1.5rem;
-    }
-
-    .inv-logo {
-        max-width: 72px;
-        max-height: 72px;
-    }
-
-    .inv-dates {
-        flex-basis: 58%;
-    }
-
-    .inv-pair {
-        grid-template-columns: 1fr auto;
-        gap: 8px;
-        padding: 4px 8px;
-    }
-
-    .inv-table th,
-    .inv-table td {
-        padding: 6px;
-    }
-
-    .inv-table td:first-child {
-        width: auto;
-    }
-
-    .inv-sums {
-        width: 75%;
-    }
-}
-
 /* Print / Save as PDF: only the sheet, on A4. */
 @media print {
     @page {
@@ -1316,8 +1303,8 @@ input[type="checkbox"] {
     body > :not(.frame),
     .rail,
     .lead,
-    .band:first-child,
-    #previewHeading {
+    .band:not(:last-child),
+    .band:last-child > :not(.inv-preview) {
         display: none !important;
     }
 
@@ -1334,8 +1321,15 @@ input[type="checkbox"] {
         overflow: visible !important;
     }
 
+    .inv-fit {
+        height: auto !important;
+    }
+
     .inv-sheet {
+        width: auto;
+        min-height: 0;
         padding: 0;
+        transform: none !important;
         print-color-adjust: exact;
     }
 }
