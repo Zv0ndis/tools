@@ -47,61 +47,84 @@
                 <div class="bands">
                     <section class="band">
                         <h2 data-t="formHeading">Details</h2>
-                        <form id="invForm" class="fields panel inv-form">
-                            <label class="field"
-                                ><span data-t="logoLabel">Logo (optional)</span>
-                                <input type="file" id="logo" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
-                            </label>
-                            <button type="button" class="text-link" id="logoRemove" data-t="logoRemove" hidden>Remove logo</button>
-                            <label class="field"
-                                ><span data-t="fromLabel">From (your name and address)</span>
-                                <textarea name="from" rows="4"></textarea>
-                            </label>
-                            <label class="field"
-                                ><span data-t="toLabel">Bill to</span>
-                                <textarea name="to" rows="4"></textarea>
-                            </label>
-                            <div class="inv-row">
-                                <label class="field"><span data-t="numberLabel">Invoice number</span><input type="text" name="number" /></label>
-                                <label class="field"
-                                    ><span data-t="currencyLabel">Currency</span>
-                                    <select name="currency">
-                                        <option>CZK</option>
-                                        <option>EUR</option>
-                                        <option>USD</option>
-                                        <option>GBP</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="inv-row">
-                                <label class="field"><span data-t="dateLabel">Date</span><input type="date" name="date" /></label>
-                                <label class="field"><span data-t="dueLabel">Due date</span><input type="date" name="due" /></label>
-                            </div>
-                            <fieldset class="inv-items">
-                                <legend data-t="itemsLabel">Items</legend>
-                                <div id="items"></div>
-                                <button type="button" class="text-link" id="addItem" data-t="addItem">Add item</button>
+                        <form id="invForm" class="panel inv-form" novalidate>
+                            <fieldset class="inv-group">
+                                <legend data-t="partiesHeading">From and to</legend>
+                                <div class="inv-row">
+                                    <label class="field"
+                                        ><span data-t="fromLabel">From</span>
+                                        <textarea name="from" rows="4"></textarea>
+                                    </label>
+                                    <label class="field"
+                                        ><span data-t="toLabel">Bill to</span>
+                                        <textarea name="to" rows="4"></textarea>
+                                    </label>
+                                </div>
                             </fieldset>
-                            <label class="field"><span data-t="taxLabel">Tax (%)</span><input type="number" name="tax" min="0" step="0.01" /></label>
-                            <label class="field"
-                                ><span data-t="payLabel">Payment details</span>
-                                <textarea name="payment" rows="5"></textarea>
-                            </label>
-                            <label class="field"
-                                ><span data-t="notesLabel">Notes</span>
-                                <textarea name="notes" rows="2"></textarea>
-                            </label>
+                            <fieldset class="inv-group">
+                                <legend data-t="invoiceHeading">Invoice</legend>
+                                <div class="inv-row">
+                                    <label class="field"><span data-t="numberLabel">Invoice number</span><input type="text" name="number" autocomplete="off" /></label>
+                                    <label class="field"
+                                        ><span data-t="currencyLabel">Currency</span>
+                                        <select name="currency">
+                                            <option>CZK</option>
+                                            <option>EUR</option>
+                                            <option>USD</option>
+                                            <option>GBP</option>
+                                            <option>PLN</option>
+                                            <option>CHF</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="inv-row">
+                                    <label class="field"><span data-t="dateLabel">Date</span><input type="date" name="date" /></label>
+                                    <label class="field"><span data-t="dueLabel">Due date</span><input type="date" name="due" aria-describedby="dueHint" /></label>
+                                </div>
+                                <p id="dueHint" class="note inv-hint" aria-live="polite"></p>
+                            </fieldset>
+                            <fieldset class="inv-group">
+                                <legend data-t="itemsLabel">Items</legend>
+                                <ol id="items" class="inv-items"></ol>
+                                <button type="button" class="text-link" id="addItem" data-t="addItem">Add item</button>
+                                <label class="field inv-tax"><span data-t="taxLabel">Tax (%)</span><input type="text" name="tax" inputmode="decimal" autocomplete="off" aria-describedby="taxError" /></label>
+                                <p id="taxError" class="error"></p>
+                                <div class="inv-sum" aria-live="polite">
+                                    <div class="result-row"><span data-t="sumSub">Subtotal</span><span id="sumSub"></span></div>
+                                    <div class="result-row"><span data-t="sumTax">Tax</span><span id="sumTax"></span></div>
+                                    <div class="result-row result-total"><span data-t="sumTotal">Total</span><span id="sumTotal"></span></div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="inv-group">
+                                <legend data-t="payHeading">Payment</legend>
+                                <label class="field"
+                                    ><span data-t="payLabel">Payment details</span>
+                                    <textarea name="payment" rows="5"></textarea>
+                                </label>
+                                <label class="field"
+                                    ><span data-t="notesLabel">Notes (optional)</span>
+                                    <textarea name="notes" rows="2"></textarea>
+                                </label>
+                            </fieldset>
+                            <fieldset class="inv-group">
+                                <legend data-t="logoHeading">Logo</legend>
+                                <label class="field"
+                                    ><span data-t="logoLabel">Image (optional)</span>
+                                    <input type="file" id="logo" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+                                </label>
+                                <button type="button" class="text-link" id="logoRemove" data-t="logoRemove" hidden>Remove logo</button>
+                            </fieldset>
                         </form>
                         <div class="actions">
                             <button type="button" class="button" id="print" data-t="print">Save as PDF</button>
                             <button type="button" class="button button-outline" id="next" data-t="next">Next invoice</button>
-                            <button type="button" class="text-link" id="reset" data-t="reset">Clear</button>
                         </div>
-                        <div class="actions">
+                        <div class="actions inv-links">
                             <button type="button" class="text-link" id="saveTemplate" data-t="saveTemplate">Save as template</button>
                             <button type="button" class="text-link" id="forgetTemplate" data-t="forgetTemplate" hidden>Forget template</button>
+                            <button type="button" class="text-link" id="reset" data-t="reset">Clear</button>
                         </div>
-                        <p id="tplStatus" class="note" aria-live="polite"></p>
+                        <p id="tplStatus" class="note inv-status" aria-live="polite"></p>
                         <p class="note" data-t="privacy">Everything stays in this browser. The form is kept here until you clear it.</p>
                     </section>
                     <section class="band">

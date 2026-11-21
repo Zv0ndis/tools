@@ -1026,47 +1026,109 @@ input[type="checkbox"] {
    Tool: Invoice (.inv-*), sheet built by invoice/invoice.js
    ========================================================================= */
 
-.inv-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+/* The form reads in the order of the invoice: groups split by a hairline, each named by its legend. */
+.inv-form {
+    container-type: inline-size;
 }
 
-.inv-items {
+.inv-group {
     display: grid;
-    gap: 8px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     border: 0;
 }
 
-.inv-items legend {
-    margin-bottom: 6px;
+.inv-group + .inv-group {
+    margin-top: 28px;
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+}
+
+.inv-group > legend {
+    float: left; /* puts the legend inside the grid's flow, so gap applies under it */
+    width: 100%;
     padding: 0;
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     font-weight: 700;
 }
 
-#items {
+.inv-row {
     display: grid;
-    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+}
+
+.inv-hint {
+    margin-top: -6px;
+}
+
+.inv-items {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .inv-item {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 4.5rem 7rem 2rem;
-    gap: 8px;
+    gap: 10px;
+}
+
+.inv-item + .inv-item {
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+}
+
+.inv-nums {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.inv-amount output {
+    display: flex;
     align-items: center;
+    min-height: var(--target);
+    font-weight: 400;
+    font-size: 1.0625rem;
+    font-variant-numeric: tabular-nums;
 }
 
-.inv-item .text-link {
-    justify-content: center;
-    font-size: 1.25rem;
-    text-decoration: none;
+.inv-remove {
+    font-weight: 400;
+    color: var(--mute);
 }
 
-.inv-item .text-link:disabled {
-    visibility: hidden;
+.inv-tax {
+    max-width: 10rem;
+}
+
+/* An invalid number: a heavier ink border plus the written error under it, never colour. */
+.inv-form [aria-invalid] {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.inv-status:empty {
+    display: none;
+}
+
+@container (width < 420px) {
+    .inv-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .inv-nums {
+        grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .inv-remove {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
 }
 
 /* The sheet is paper in both themes, like the QR image: fixed colours on purpose. */
@@ -1198,6 +1260,50 @@ input[type="checkbox"] {
 
 .inv-gap {
     margin-top: 16px;
+}
+
+/* A narrow preview (phones) keeps the sheet's layout, only tighter. */
+.inv-preview {
+    container-type: inline-size;
+}
+
+@container (width < 560px) {
+    .inv-sheet {
+        padding: 20px 16px;
+        font-size: 0.6875rem;
+    }
+
+    .inv-word {
+        font-size: 1.5rem;
+    }
+
+    .inv-logo {
+        max-width: 72px;
+        max-height: 72px;
+    }
+
+    .inv-dates {
+        flex-basis: 58%;
+    }
+
+    .inv-pair {
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        padding: 4px 8px;
+    }
+
+    .inv-table th,
+    .inv-table td {
+        padding: 6px;
+    }
+
+    .inv-table td:first-child {
+        width: auto;
+    }
+
+    .inv-sums {
+        width: 75%;
+    }
 }
 
 /* Print / Save as PDF: only the sheet, on A4. */

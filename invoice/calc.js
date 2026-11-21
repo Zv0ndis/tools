@@ -1,9 +1,12 @@
 // Pure helpers for the invoice page; checked by `node invoice/selfcheck.mjs`.
 
-const num = (v) => {
-    const n = parseFloat(String(v).replace(",", "."));
-    return Number.isFinite(n) ? n : 0;
-};
+// "1 500,50" and "1500.5" both mean 1500.5; spaces (also non-breaking) are thousands separators.
+const clean = (v) => String(v ?? "").replace(/[\s\u00a0]/g, "").replace(",", ".");
+
+// Empty counts as valid (it is simply 0); anything else must be a plain number.
+export const isNum = (v) => clean(v) === "" || /^-?\d+(\.\d+)?$/.test(clean(v));
+
+export const num = (v) => (isNum(v) && clean(v) !== "" ? Number(clean(v)) : 0);
 
 // Amounts in cents so the sum of the lines matches the total printed under them.
 export function totals(items, taxPct) {

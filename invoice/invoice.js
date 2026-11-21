@@ -1,5 +1,5 @@
 import { initLang } from "/assets/lang.js";
-import { totals, nextNumber, isoDate, addDays, daysBetween } from "/invoice/calc.js";
+import { totals, nextNumber, isoDate, addDays, daysBetween, num, isNum } from "/invoice/calc.js";
 
 const copy = {
     cs: {
@@ -7,10 +7,25 @@ const copy = {
         h1: "Faktura",
         subtitle: "Vyplňte údaje a uložte fakturu jako PDF",
         formHeading: "Údaje",
-        logoLabel: "Logo (nepovinné)",
+        partiesHeading: "Dodavatel a odběratel",
+        invoiceHeading: "Faktura",
+        payHeading: "Platba",
+        logoHeading: "Logo",
+        logoLabel: "Obrázek (nepovinné)",
         logoRemove: "Odebrat logo",
-        fromLabel: "Dodavatel (vaše jméno a adresa)",
+        fromLabel: "Dodavatel",
         toLabel: "Odběratel",
+        fromPh: "Jméno a příjmení\nUlice 12\n602 00 Brno\nIČO 12345678",
+        toPh: "Firma s.r.o.\nUlice 34\n110 00 Praha\nIČO 87654321",
+        payPh: "Číslo účtu 123456789/0100\nVariabilní symbol 2026001",
+        sumSub: "Mezisoučet",
+        sumTax: "DPH",
+        sumTotal: "Celkem",
+        itemAmount: "Částka",
+        notNumber: "Zadejte číslo, třeba 1 500 nebo 99,50.",
+        taxNotNumber: "DPH musí být číslo, třeba 21.",
+        dueIn: (d) => (d === 0 ? "Splatné v den vystavení." : `Splatné za ${d} ${d === 1 ? "den" : d < 5 ? "dny" : "dní"}.`),
+        dueBefore: "Datum splatnosti je před datem vystavení.",
         numberLabel: "Číslo faktury",
         currencyLabel: "Měna",
         dateLabel: "Datum vystavení",
@@ -19,7 +34,7 @@ const copy = {
         addItem: "Přidat položku",
         taxLabel: "DPH (%)",
         payLabel: "Platební údaje",
-        notesLabel: "Poznámka",
+        notesLabel: "Poznámka (nepovinné)",
         print: "Uložit jako PDF",
         next: "Další faktura",
         reset: "Vymazat",
@@ -33,7 +48,8 @@ const copy = {
         itemDesc: "Popis",
         itemQty: "Množství",
         itemRate: "Cena",
-        itemRemove: "Odebrat položku",
+        itemRemove: "Odebrat",
+        itemRemoveAria: (n) => `Odebrat položku ${n}`,
         locale: "cs-CZ",
         sInvoice: "Faktura",
         sDate: "Datum vystavení:",
@@ -55,10 +71,25 @@ const copy = {
         h1: "Invoice",
         subtitle: "Fill in the details and save the invoice as a PDF",
         formHeading: "Details",
-        logoLabel: "Logo (optional)",
+        partiesHeading: "From and to",
+        invoiceHeading: "Invoice",
+        payHeading: "Payment",
+        logoHeading: "Logo",
+        logoLabel: "Image (optional)",
         logoRemove: "Remove logo",
-        fromLabel: "From (your name and address)",
+        fromLabel: "From",
         toLabel: "Bill to",
+        fromPh: "Your name\nStreet 12\nCity, postcode\nCountry",
+        toPh: "Client Ltd\nStreet 34\nCity, postcode\nVAT ID",
+        payPh: "Bank, IBAN and BIC / SWIFT",
+        sumSub: "Subtotal",
+        sumTax: "Tax",
+        sumTotal: "Total",
+        itemAmount: "Amount",
+        notNumber: "Enter a number, like 1500 or 99.50.",
+        taxNotNumber: "Tax must be a number, like 21.",
+        dueIn: (d) => (d === 0 ? "Due on the invoice date." : `Due in ${d} day${d === 1 ? "" : "s"}.`),
+        dueBefore: "The due date is before the invoice date.",
         numberLabel: "Invoice number",
         currencyLabel: "Currency",
         dateLabel: "Date",
@@ -67,7 +98,7 @@ const copy = {
         addItem: "Add item",
         taxLabel: "Tax (%)",
         payLabel: "Payment details",
-        notesLabel: "Notes",
+        notesLabel: "Notes (optional)",
         print: "Save as PDF",
         next: "Next invoice",
         reset: "Clear",
@@ -81,7 +112,8 @@ const copy = {
         itemDesc: "Description",
         itemQty: "Quantity",
         itemRate: "Rate",
-        itemRemove: "Remove item",
+        itemRemove: "Remove",
+        itemRemoveAria: (n) => `Remove item ${n}`,
         locale: "en-US",
         sInvoice: "Invoice",
         sDate: "Date:",
@@ -163,43 +195,87 @@ function el(tag, cls, text) {
     return e;
 }
 
-function input(value, label, onInput, attrs = {}) {
+let amountEls = []; // per item: [amount span, error line, qty input, rate input]
+
+function field(label, value, onInput, cls, attrs = {}) {
+    const l = el("label", `field ${cls}`);
     const i = el("input");
     i.type = "text";
+    i.autocomplete = "off";
     i.value = value;
-    i.setAttribute("aria-label", label);
     Object.assign(i, attrs);
     i.addEventListener("input", () => onInput(i.value));
-    return i;
+    l.append(el("span", "", label), i);
+    return [l, i];
 }
 
 function renderItems() {
-    const box = $("items");
-    box.replaceChildren(
+    amountEls = [];
+    $("items").replaceChildren(
         ...state.items.map((it, n) => {
-            const row = el("div", "inv-item");
+            const li = el("li", "inv-item");
             const set = (k) => (v) => {
                 it[k] = v;
                 update();
             };
-            const remove = el("button", "text-link", "×");
+            const [desc] = field(m.itemDesc, it.desc, set("desc"), "inv-desc");
+            const [qtyL, qty] = field(m.itemQty, it.qty, set("qty"), "inv-qty", { inputMode: "decimal" });
+            const [rateL, rate] = field(m.itemRate, it.rate, set("rate"), "inv-rate", { inputMode: "decimal" });
+            const amount = el("div", "field inv-amount");
+            const value = el("output");
+            amount.append(el("span", "", m.itemAmount), value);
+            const remove = el("button", "text-link inv-remove", m.itemRemove);
             remove.type = "button";
-            remove.setAttribute("aria-label", `${m.itemRemove} ${n + 1}`);
-            remove.disabled = state.items.length === 1;
+            remove.setAttribute("aria-label", m.itemRemoveAria(n + 1));
+            remove.hidden = state.items.length === 1;
             remove.addEventListener("click", () => {
                 state.items.splice(n, 1);
                 renderItems();
                 update();
+                const items = $("items").children;
+                items[Math.min(n, items.length - 1)].querySelector("input").focus();
             });
-            row.append(
-                input(it.desc, `${m.itemDesc} ${n + 1}`, set("desc"), { placeholder: m.itemDesc }),
-                input(it.qty, `${m.itemQty} ${n + 1}`, set("qty"), { inputMode: "decimal", placeholder: m.itemQty }),
-                input(it.rate, `${m.itemRate} ${n + 1}`, set("rate"), { inputMode: "decimal", placeholder: m.itemRate }),
-                remove,
-            );
-            return row;
+            const error = el("p", "error");
+            error.id = `itemError${n}`;
+            qty.setAttribute("aria-describedby", error.id);
+            rate.setAttribute("aria-describedby", error.id);
+            const nums = el("div", "inv-nums");
+            nums.append(qtyL, rateL, amount, remove);
+            li.append(desc, nums, error);
+            amountEls.push([value, error, qty, rate]);
+            return li;
         }),
     );
+    refreshForm();
+}
+
+function money(n) {
+    try {
+        return new Intl.NumberFormat(m.locale, { style: "currency", currency: state.currency }).format(n);
+    } catch {
+        return n.toFixed(2);
+    }
+}
+
+// The parts of the form that are computed: line amounts, totals, the due-date hint and number errors.
+function refreshForm() {
+    const t = totals(state.items, state.tax);
+    amountEls.forEach(([value, error, qty, rate], i) => {
+        value.textContent = money(t.lines[i] ?? 0);
+        const bad = [qty, rate].filter((x) => !isNum(x.value));
+        for (const x of [qty, rate]) x.toggleAttribute("aria-invalid", bad.includes(x));
+        error.textContent = bad.length ? m.notNumber : "";
+    });
+    const tax = form.elements.tax;
+    tax.toggleAttribute("aria-invalid", !isNum(tax.value));
+    $("taxError").textContent = isNum(tax.value) ? "" : m.taxNotNumber;
+    $("sumSub").textContent = money(t.sub);
+    $("sumTax").textContent = money(t.tax);
+    $("sumTotal").textContent = money(t.total);
+    const days = state.date && state.due ? daysBetween(state.date, state.due) : null;
+    const hint = $("dueHint");
+    hint.textContent = days == null ? "" : days < 0 ? m.dueBefore : m.dueIn(days);
+    hint.classList.toggle("error", days != null && days < 0);
 }
 
 function fillForm() {
@@ -220,13 +296,6 @@ function pair(label, value, cls = "") {
 }
 
 function renderSheet() {
-    const money = (n) => {
-        try {
-            return new Intl.NumberFormat(m.locale, { style: "currency", currency: state.currency }).format(n);
-        } catch {
-            return n.toFixed(2);
-        }
-    };
     const date = (iso) => {
         const [y, mo, d] = (iso || "").split("-").map(Number);
         return y ? new Intl.DateTimeFormat(m.locale, { dateStyle: "medium" }).format(new Date(y, mo - 1, d)) : "";
@@ -270,7 +339,7 @@ function renderSheet() {
     table.tHead.append(hr);
     state.items.forEach((it, i) => {
         const tr = el("tr");
-        tr.append(el("td", "inv-strong", it.desc), el("td", "", it.qty), el("td", "inv-num", money(parseFloat(String(it.rate).replace(",", ".")) || 0)), el("td", "inv-num", money(t.lines[i])));
+        tr.append(el("td", "inv-strong", it.desc), el("td", "", it.qty), el("td", "inv-num", money(num(it.rate))), el("td", "inv-num", money(t.lines[i])));
         table.tBodies[0].append(tr);
     });
 
@@ -293,15 +362,20 @@ function renderSheet() {
 function update() {
     save();
     renderSheet();
+    refreshForm();
 }
 
 form.addEventListener("submit", (e) => e.preventDefault());
 form.addEventListener("input", (e) => {
     const k = e.target.name;
-    if (k && k in state) {
-        state[k] = e.target.value;
-        update();
+    if (!k || !(k in state)) return;
+    // Moving the invoice date moves the due date with it, keeping the payment term.
+    if (k === "date" && e.target.value && state.date && state.due) {
+        state.due = addDays(e.target.value, daysBetween(state.date, state.due));
+        form.elements.due.value = state.due;
     }
+    state[k] = e.target.value;
+    update();
 });
 
 $("logo").addEventListener("change", () => {
@@ -320,11 +394,20 @@ $("logoRemove").addEventListener("click", () => {
     fillForm();
     update();
 });
-$("addItem").addEventListener("click", () => {
+function addItem() {
     state.items.push({ desc: "", qty: "1", rate: "" });
     renderItems();
     update();
-    $("items").lastElementChild.firstElementChild.focus();
+    $("items").lastElementChild.querySelector("input").focus();
+}
+$("addItem").addEventListener("click", addItem);
+// Enter in the last item starts a new one, like the next line of a list.
+$("items").addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || e.target.tagName !== "INPUT") return;
+    e.preventDefault();
+    const li = e.target.closest("li");
+    if (li === $("items").lastElementChild) addItem();
+    else li.nextElementSibling.querySelector("input").focus();
 });
 $("next").addEventListener("click", () => {
     const today = isoDate(new Date());
@@ -365,6 +448,7 @@ $("print").addEventListener("click", () => {
 
 initLang(copy, (l) => {
     m = copy[l];
+    for (const [k, key] of [["from", "fromPh"], ["to", "toPh"], ["payment", "payPh"]]) form.elements[k].placeholder = m[key];
     syncTemplateButtons();
     $("tplStatus").textContent = "";
     renderItems();
