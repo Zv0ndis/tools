@@ -196,7 +196,7 @@ function fillForm() {
 }
 
 function lines(parent, text, firstBold) {
-    text.split("\n").forEach((line, i) => parent.append(el("div", firstBold && i === 0 ? "inv-strong" : "", line)));
+    text.split("\n").forEach((line, i) => parent.append(el("div", firstBold && i === 0 ? "inv-strong" : "", line || " "))); // nbsp keeps blank lines
 }
 
 function pair(label, value, cls = "") {
