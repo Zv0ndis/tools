@@ -1021,3 +1021,215 @@ input[type="checkbox"] {
 .subnet-out > div + p {
     margin-top: 12px;
 }
+
+/* =========================================================================
+   Tool: Invoice (.inv-*), sheet built by invoice/invoice.js
+   ========================================================================= */
+
+.inv-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.inv-items {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.inv-items legend {
+    margin-bottom: 6px;
+    padding: 0;
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+#items {
+    display: grid;
+    gap: 8px;
+}
+
+.inv-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 4.5rem 7rem 2rem;
+    gap: 8px;
+    align-items: center;
+}
+
+.inv-item .text-link {
+    justify-content: center;
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+.inv-item .text-link:disabled {
+    visibility: hidden;
+}
+
+/* The sheet is paper in both themes, like the QR image: fixed colours on purpose. */
+.inv-sheet {
+    min-height: 100%;
+    padding: 40px 36px;
+    background: #fff;
+    color: #333;
+    font-family: helvetica, arial, sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+}
+
+.inv-head,
+.inv-parties {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.inv-logo {
+    max-width: 140px;
+    max-height: 140px;
+}
+
+.inv-title {
+    text-align: right;
+}
+
+.inv-word {
+    font-size: 2.25rem;
+    line-height: 1.1;
+}
+
+.inv-mute {
+    color: #777;
+}
+
+.inv-strong {
+    color: #000;
+    font-weight: 700;
+}
+
+.inv-parties {
+    margin-top: 32px;
+}
+
+.inv-parties > :first-child {
+    white-space: pre-wrap;
+}
+
+.inv-billto {
+    margin-top: 20px;
+}
+
+.inv-dates {
+    flex: 0 0 48%;
+}
+
+.inv-pair {
+    display: grid;
+    grid-template-columns: 1fr 9rem;
+    gap: 24px;
+    padding: 6px 12px;
+    text-align: right;
+}
+
+.inv-balance {
+    border-radius: 4px;
+    background: #f4f4f4;
+    color: #000;
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.inv-balance .inv-mute {
+    color: #000;
+}
+
+.inv-table {
+    width: 100%;
+    margin-top: 36px;
+    border-collapse: collapse;
+}
+
+.inv-table th {
+    padding: 6px 12px;
+    background: #333;
+    color: #fff;
+    font-weight: 400;
+    text-align: left;
+}
+
+.inv-table th:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.inv-table th:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.inv-table td {
+    padding: 10px 12px;
+    vertical-align: top;
+}
+
+.inv-table td:first-child {
+    width: 60%;
+}
+
+.inv-table .inv-num {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.inv-sums {
+    width: 60%;
+    margin: 24px 0 0 auto;
+}
+
+.inv-foot {
+    margin-top: 40px;
+    white-space: pre-wrap;
+}
+
+.inv-foot > .inv-mute {
+    margin-bottom: 4px;
+}
+
+.inv-gap {
+    margin-top: 16px;
+}
+
+/* Print / Save as PDF: only the sheet, on A4. */
+@media print {
+    @page {
+        size: a4;
+        margin: 14mm;
+    }
+
+    body > :not(.frame),
+    .rail,
+    .lead,
+    .band:first-child,
+    #previewHeading {
+        display: none !important;
+    }
+
+    .frame,
+    .main,
+    .bands,
+    .band,
+    .inv-preview {
+        display: block !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        overflow: visible !important;
+    }
+
+    .inv-sheet {
+        padding: 0;
+        print-color-adjust: exact;
+    }
+}

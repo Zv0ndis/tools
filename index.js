@@ -16,6 +16,8 @@ initLang({
         decText: "Formátuje JSON, převádí Base64 a čte JWT tokeny.",
         subName: "Kalkulačka podsítí",
         subText: "Rozsah, maska a rozdělení sítě pro IPv4 i IPv6.",
+        invName: "Faktura",
+        invText: "Vytvoří fakturu v prohlížeči a uloží ji jako PDF.",
         shipsText: "Hra o lodích a tipování (anglicky).",
     },
     en: {
@@ -33,6 +35,8 @@ initLang({
         decText: "Formats JSON, converts Base64 and reads JWT tokens.",
         subName: "Subnet Calculator",
         subText: "Range, mask and network splits for IPv4 and IPv6.",
+        invName: "Invoice",
+        invText: "Makes an invoice in your browser and saves it as a PDF.",
         shipsText: "A game of ships and guesses.",
     },
 });

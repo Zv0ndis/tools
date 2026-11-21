@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        <title>Invoice | Tools</title>
+        <meta name="description" content="Makes an invoice in your browser and saves it as a PDF. Free, no sign-up." />
+        <link rel="canonical" href="https://tools.zvondis.dev/invoice/" />
+        <link rel="preload" href="/assets/fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+        <script src="/assets/theme.js"></script>
+        <link rel="stylesheet" href="/assets/style.css" />
+        <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+        <script src="/assets/search.js" defer></script>
+        <script type="module" src="/invoice/invoice.js"></script>
+    </head>
+    <body>
+        <a class="skip" href="#main" data-t="skip">Skip to content</a>
+        <div class="frame frame-fit">
+            <header class="rail">
+                <a class="mark" href="https://zvondis.dev/" data-main="home">Zvondis</a>
+                <nav class="rail-nav" aria-label="Pages" data-t-aria="navAria">
+                    <ul>
+                        <li><a href="https://zvondis.dev/" class="nav-link" data-main="home" data-t="navHome">Home</a></li>
+                        <li><a href="https://zvondis.dev/cv" class="nav-link" data-main="cv" data-t="navCv">CV</a></li>
+                        <li><a href="https://zvondis.dev/semestr" class="nav-link" data-main="semester" data-t="navSemester">Semester</a></li>
+                        <li><a href="https://zvondis.dev/vybaveni" class="nav-link" data-main="uses" data-t="navUses">Uses</a></li>
+                        <li><a href="https://zvondis.dev/soukromi" class="nav-link" data-main="privacy" data-t="navPrivacy">Privacy</a></li>
+                        <li><a href="/" class="nav-link" data-t="navTools">Tools</a></li>
+                        <li><a href="/battleships/" class="nav-link" data-t="navShips">Battleships</a></li>
+                    </ul>
+                    <div class="rail-switches">
+                        <button type="button" class="theme-switch" data-theme-toggle hidden>Dark</button>
+                        <button type="button" class="lang-switch" id="lang" lang="cs">CZ</button>
+                    </div>
+                </nav>
+            </header>
+            <main id="main" class="main">
+                <header class="lead">
+                    <h1 data-t="h1">Invoice</h1>
+                    <p class="subtitle" data-t="subtitle">Fill in the details and save the invoice as a PDF</p>
+                </header>
+                <div class="bands">
+                    <section class="band">
+                        <h2 data-t="formHeading">Details</h2>
+                        <form id="invForm" class="fields panel inv-form">
+                            <label class="field"
+                                ><span data-t="logoLabel">Logo (optional)</span>
+                                <input type="file" id="logo" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+                            </label>
+                            <button type="button" class="text-link" id="logoRemove" data-t="logoRemove" hidden>Remove logo</button>
+                            <label class="field"
+                                ><span data-t="fromLabel">From (your name and address)</span>
+                                <textarea name="from" rows="4"></textarea>
+                            </label>
+                            <label class="field"
+                                ><span data-t="toLabel">Bill to</span>
+                                <textarea name="to" rows="4"></textarea>
+                            </label>
+                            <div class="inv-row">
+                                <label class="field"><span data-t="numberLabel">Invoice number</span><input type="text" name="number" /></label>
+                                <label class="field"
+                                    ><span data-t="currencyLabel">Currency</span>
+                                    <select name="currency">
+                                        <option>CZK</option>
+                                        <option>EUR</option>
+                                        <option>USD</option>
+                                        <option>GBP</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="inv-row">
+                                <label class="field"><span data-t="dateLabel">Date</span><input type="date" name="date" /></label>
+                                <label class="field"><span data-t="dueLabel">Due date</span><input type="date" name="due" /></label>
+                            </div>
+                            <fieldset class="inv-items">
+                                <legend data-t="itemsLabel">Items</legend>
+                                <div id="items"></div>
+                                <button type="button" class="text-link" id="addItem" data-t="addItem">Add item</button>
+                            </fieldset>
+                            <label class="field"><span data-t="taxLabel">Tax (%)</span><input type="number" name="tax" min="0" step="0.01" /></label>
+                            <label class="field"
+                                ><span data-t="payLabel">Payment details</span>
+                                <textarea name="payment" rows="5"></textarea>
+                            </label>
+                            <label class="field"
+                                ><span data-t="notesLabel">Notes</span>
+                                <textarea name="notes" rows="2"></textarea>
+                            </label>
+                        </form>
+                        <div class="actions">
+                            <button type="button" class="button" id="print" data-t="print">Save as PDF</button>
+                            <button type="button" class="button button-outline" id="next" data-t="next">Next invoice</button>
+                            <button type="button" class="text-link" id="reset" data-t="reset">Clear</button>
+                        </div>
+                        <p class="note" data-t="privacy">Everything stays in this browser. The form is kept here until you clear it.</p>
+                    </section>
+                    <section class="band">
+                        <h2 id="previewHeading" data-t="previewHeading">Preview</h2>
+                        <div class="panel inv-preview" aria-labelledby="previewHeading" tabindex="0">
+                            <article id="sheet" class="inv-sheet"></article>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
