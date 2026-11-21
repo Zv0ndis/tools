@@ -10,7 +10,7 @@ Small tools and games at **[tools.zvondis.dev](https://tools.zvondis.dev)**, a s
 | `/qr/`              | QR code from text or a link, as PNG or SVG                     |
 | `/decode/`          | JSON format and check, Base64, JWT reading                     |
 | `/subnet/`          | IPv4 and IPv6 subnet calculator                                |
-| `/invoice/`         | Invoice to fill in and save as PDF                             |
+| `/invoice/`         | Invoice to save as PDF, with a template kept in the browser    |
 | `/battleships/`     | Client of the Battleships game; published from a separate repo |
 | `/assets/`          | Shared stylesheet, `lang.js`, `theme.js`, Archivo font, favicon |
 | `/search.json`      | Search index, copied from zvondis.dev (see Search below)       |

@@ -24,6 +24,10 @@ const copy = {
         next: "Další faktura",
         reset: "Vymazat",
         resetTemplate: "Obnovit šablonu",
+        saveTemplate: "Uložit jako šablonu",
+        forgetTemplate: "Zapomenout šablonu",
+        templateSaved: "Šablona uložena. „Obnovit šablonu“ ji vrátí s dnešním datem.",
+        templateForgotten: "Šablona zapomenuta.",
         privacy: "Vše zůstává v tomto prohlížeči. Formulář se tu uchová, dokud ho nevymažete.",
         previewHeading: "Náhled",
         itemDesc: "Popis",
@@ -68,6 +72,10 @@ const copy = {
         next: "Next invoice",
         reset: "Clear",
         resetTemplate: "Reset to template",
+        saveTemplate: "Save as template",
+        forgetTemplate: "Forget template",
+        templateSaved: "Template saved. “Reset to template” brings it back with today's date.",
+        templateForgotten: "Template forgotten.",
         privacy: "Everything stays in this browser. The form is kept here until you clear it.",
         previewHeading: "Preview",
         itemDesc: "Description",
@@ -96,7 +104,10 @@ const KEY = "invoice";
 const $ = (id) => document.getElementById(id);
 const form = $("invForm");
 let m = copy.en;
-let template = null; // served next to the page only on the private copy (zvondis.dev/invoice)
+const TKEY = "invoice-template";
+let served = null; // template.json, served next to the page only on the private copy (zvondis.dev/invoice)
+let own = null; // template saved in this browser with "Save as template"; wins over the served one
+const template = () => own ?? served;
 
 function blank() {
     const today = isoDate(new Date());
@@ -117,14 +128,15 @@ function blank() {
 
 // A template gets today's dates; its number is only the first one, later ones come from "Next invoice".
 function fresh() {
-    if (!template) return blank();
+    const t = template();
+    if (!t) return blank();
     const today = isoDate(new Date());
-    return { ...blank(), ...template, date: today, due: addDays(today, template.dueDays ?? 14) };
+    return { ...blank(), ...structuredClone(t), date: today, due: addDays(today, t.dueDays ?? 14) };
 }
 
-function load() {
+function load(key = KEY) {
     try {
-        const saved = JSON.parse(localStorage.getItem(KEY));
+        const saved = JSON.parse(localStorage.getItem(key));
         if (saved && Array.isArray(saved.items)) return saved;
     } catch {
         // private window or blocked storage: start fresh
@@ -132,11 +144,13 @@ function load() {
     return null;
 }
 
-let state = load() ?? blank();
+own = load(TKEY);
+let state = load() ?? fresh();
 
-function save() {
+function save(key = KEY, value = state) {
     try {
-        localStorage.setItem(KEY, JSON.stringify(state));
+        if (value) localStorage.setItem(key, JSON.stringify(value));
+        else localStorage.removeItem(key);
     } catch {
         // storage full or blocked: the page still works, it just won't remember
     }
@@ -324,6 +338,24 @@ $("reset").addEventListener("click", () => {
     fillForm();
     update();
 });
+function syncTemplateButtons() {
+    $("reset").textContent = template() ? m.resetTemplate : m.reset;
+    $("forgetTemplate").hidden = !own;
+}
+$("saveTemplate").addEventListener("click", () => {
+    const { date, due, ...rest } = state;
+    own = { ...structuredClone(rest), dueDays: date && due ? daysBetween(date, due) : 14 };
+    save(TKEY, own);
+    $("tplStatus").textContent = m.templateSaved;
+    syncTemplateButtons();
+});
+$("forgetTemplate").addEventListener("click", () => {
+    own = null;
+    save(TKEY, null);
+    $("tplStatus").textContent = m.templateForgotten;
+    syncTemplateButtons();
+    $("saveTemplate").focus();
+});
 $("print").addEventListener("click", () => {
     const title = document.title;
     document.title = `${m.sInvoice} ${state.number}`; // becomes the PDF file name
@@ -333,7 +365,8 @@ $("print").addEventListener("click", () => {
 
 initLang(copy, (l) => {
     m = copy[l];
-    $("reset").textContent = template ? m.resetTemplate : m.reset;
+    syncTemplateButtons();
+    $("tplStatus").textContent = "";
     renderItems();
     renderSheet();
 });
@@ -345,8 +378,8 @@ fetch("template.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : null))
     .then((t) => {
         if (!t) return;
-        template = t;
-        $("reset").textContent = m.resetTemplate;
+        served = t;
+        syncTemplateButtons();
         if (!load()) {
             state = fresh();
             fillForm();
