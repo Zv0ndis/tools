@@ -12,7 +12,7 @@ Small tools and games at **[tools.zvondis.dev](https://tools.zvondis.dev)**, a s
 | `/subnet/`          | IPv4 and IPv6 subnet calculator                                |
 | `/invoice/`         | Invoice to save as PDF, with a template kept in the browser    |
 | `/battleships/`     | Client of the Battleships game; published from a separate repo |
-| `/assets/`          | Shared stylesheet, `lang.js`, `theme.js`, Archivo font, favicon |
+| `/assets/`          | Shared stylesheet, `lang.js`, `theme.js`, `bits.js`, Archivo font, favicon |
 | `/search.json`      | Search index, copied from zvondis.dev (see Search below)       |
 
 ## Contributing

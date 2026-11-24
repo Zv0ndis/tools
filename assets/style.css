@@ -1341,3 +1341,58 @@ input[type="checkbox"] {
         print-color-adjust: exact;
     }
 }
+
+/* Index: 0/1 toolbox beside the heading, as on zvondis.dev (assets/bits.js, copied from there).
+   Ink, not accent: on tools the blue is only the focus ring. */
+.art {
+    margin: 32px 0 0;
+    color: var(--ink);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    user-select: none;
+}
+
+.art .s0 {
+    opacity: 0.22;
+}
+
+.art .s1 {
+    opacity: 0.45;
+}
+
+.art .s2 {
+    opacity: 0.72;
+}
+
+@media (width >= 1200px) {
+    .lead-art {
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        grid-template-rows: repeat(2, auto) 1fr;
+        column-gap: 48px;
+    }
+
+    .lead-art > * {
+        grid-column: 1;
+    }
+
+    /* bits.js fits the font size to this column, no taller than max-height */
+    .lead-art > .art {
+        grid-column: 2;
+        grid-row: 1 / -1;
+        justify-self: end;
+        width: max-content;
+        max-height: 24vh;
+        margin: 0;
+        font-size: 12px;
+    }
+}
+
+@media print {
+    .art {
+        display: none !important;
+    }
+}
