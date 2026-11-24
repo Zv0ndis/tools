@@ -1367,12 +1367,13 @@ input[type="checkbox"] {
     opacity: 0.72;
 }
 
-@media (width >= 1200px) {
+/* From 600px the art sits in the last third of the lead, as on zvondis.dev; on phones it goes below. */
+@media (width >= 600px) {
     .lead-art {
         display: grid;
-        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
         grid-template-rows: repeat(2, auto) 1fr;
-        column-gap: 48px;
+        column-gap: var(--col-gap);
     }
 
     .lead-art > * {

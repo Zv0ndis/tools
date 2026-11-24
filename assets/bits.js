@@ -68,7 +68,7 @@
     // Wide layout: fill the art's column, like the home page heart, but no taller than the CSS
     // max-height (set in the one-screen layout; "none" otherwise).
     const header = pre.parentElement;
-    const wide = matchMedia("(width >= 1200px)");
+    const wide = matchMedia("(width >= 600px)") // tools: art beside the heading from 600px;
     const fit = () => {
         pre.style.fontSize = "";
         if (!wide.matches) return;
