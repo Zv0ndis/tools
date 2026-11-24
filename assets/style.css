@@ -34,6 +34,11 @@
 
     /* behind the search panel: the dark paper value, dimming the page in both themes */
     --scrim: rgb(12 12 13 / 45%);
+
+    /* 0/1 art shade steps: faint blue washes out on paper, so light runs stronger */
+    --shade-0: 0.45;
+    --shade-1: 0.65;
+    --shade-2: 0.85;
 }
 
 /* Dark: the same page inverted, same values as zvondis.dev. It follows the OS until the rail switch
@@ -48,6 +53,9 @@
         --accent: #8c9eff; /* 7.87:1 on paper */
 
         --scrim: rgb(12 12 13 / 72%);
+        --shade-0: 0.22;
+        --shade-1: 0.45;
+        --shade-2: 0.72;
 
         color-scheme: dark;
     }
@@ -62,6 +70,9 @@
     --accent: #8c9eff; /* 7.87:1 on paper */
 
     --scrim: rgb(12 12 13 / 72%);
+    --shade-0: 0.22;
+    --shade-1: 0.45;
+    --shade-2: 0.72;
 
     color-scheme: dark;
 }
@@ -1342,11 +1353,10 @@ input[type="checkbox"] {
     }
 }
 
-/* Index: 0/1 toolbox beside the heading, as on zvondis.dev (assets/bits.js, copied from there).
-   Ink, not accent: on tools the blue is only the focus ring. */
+/* Index: 0/1 toolbox beside the heading, the same bit art as zvondis.dev (assets/bits.js, copied from there). */
 .art {
     margin: 32px 0 0;
-    color: var(--ink);
+    color: var(--accent);
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 11px;
     line-height: 1;
@@ -1356,24 +1366,25 @@ input[type="checkbox"] {
 }
 
 .art .s0 {
-    opacity: 0.22;
+    opacity: var(--shade-0);
 }
 
 .art .s1 {
-    opacity: 0.45;
+    opacity: var(--shade-1);
 }
 
 .art .s2 {
-    opacity: 0.72;
+    opacity: var(--shade-2);
 }
 
-/* From 600px the art sits in the last third of the lead, as on zvondis.dev; on phones it goes below. */
+/* From 600px the art sits in the last third of the lead and hangs from its right edge; on phones it goes below. */
 @media (width >= 600px) {
     .lead-art {
         display: grid;
         grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
         grid-template-rows: repeat(2, auto) 1fr;
         column-gap: var(--col-gap);
+        align-self: start;
     }
 
     .lead-art > * {
@@ -1384,11 +1395,46 @@ input[type="checkbox"] {
     .lead-art > .art {
         grid-column: 2;
         grid-row: 1 / -1;
-        justify-self: end;
+        place-self: start end;
         width: max-content;
         max-height: 24vh;
         margin: 0;
         font-size: 12px;
+    }
+}
+
+/* One screen, as zvondis.dev inner pages: the lead stops sharing row 1 with the rail and the bands
+   start right under it in columns 4 to 12, each name on top of its ink rule. */
+@media screen and (width >= 1200px) and (height >= 940px) {
+    .main:has(> .lead-art) {
+        grid-row: 1 / -1;
+        grid-template-rows: auto minmax(0, 1fr);
+        row-gap: 32px;
+    }
+
+    .main:has(> .lead-art) > .bands {
+        grid-column: 4 / -1;
+        grid-row: 2;
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+        gap: 32px var(--col-gap);
+        min-height: 0;
+        margin-top: 0;
+    }
+
+    .main:has(> .lead-art) .band {
+        display: block;
+        grid-column: 1 / -1;
+        margin-top: 0;
+    }
+
+    .main:has(> .lead-art) .band > h2 {
+        margin-bottom: 14px;
+    }
+}
+
+@media screen and (width >= 1200px) and (940px <= height < 1060px) {
+    .lead-art > .art {
+        max-height: 18vh;
     }
 }
 

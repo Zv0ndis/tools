@@ -1,6 +1,6 @@
 ---
 name: Zvondis Tools
-description: The tools.zvondis.dev pages, set in the zvondis.dev system. One grotesque, ink on paper, hairline rules; the accent is only the focus ring.
+description: The tools.zvondis.dev pages, set in the zvondis.dev system. One grotesque, ink on paper, hairline rules; the accent is only the focus ring and the index's bit art.
 colors:
   paper: "#fafaf9"
   ink: "#0c0c0d"
@@ -100,7 +100,7 @@ tools.zvondis.dev inherits the zvondis.dev design system and changes nothing in 
 **Key Characteristics:**
 
 - One family (Archivo, variable, self-hosted), contrast by weight: an 800 headline against a 400 mute subtitle, 700 for labels and anything current.
-- No accent colour in the content. The blue appears only as the keyboard focus ring.
+- No accent colour in the content. The blue appears only as the keyboard focus ring and the 0/1 toolbox beside the index heading, as the page art on zvondis.dev.
 - A rail in columns 1 to 3 on desktop with the Zvondis mark, the nav and the theme and CZ / EN switches; on phones the mark and the switches share a line and the links wrap below.
 - Bands opened by a 1px ink rule, rows split by 1px hairlines.
 - 2px corners on buttons and inputs only.
@@ -111,7 +111,7 @@ Near-white paper, near-black ink, one grey for secondary text, one grey for inpu
 
 ### Primary
 
-- **Accent** (`--accent`, #1637E0): the focus ring, and nothing else on this site. On zvondis.dev it is also the price phrase and the Call button; tools have neither.
+- **Accent** (`--accent`, #1637E0): the focus ring and the index's bit art (`.art`), nothing else. On zvondis.dev it is also the price phrase and the Call button; tools have neither.
 
 ### Neutral
 
@@ -140,7 +140,7 @@ Tool CSS and scripts use the tokens, never a fixed colour, or they break in dark
 
 ### Named Rules
 
-**The One Blue Rule.** On tools the accent is the focus ring. Not a button, not a link, not a highlight, not a chart series.
+**The One Blue Rule.** On tools the accent is the focus ring and the bit art. Not a button, not a link, not a highlight, not a chart series.
 
 **No Colour Alone.** States are carried by weight and words: the bold current nav item, a bold verdict, a bold over-the-limit line, written error text. A red or green dot is never enough on its own.
 
@@ -180,7 +180,7 @@ Below 960px everything is one column with a 16px gutter (32px from 600px). From 
 | `.frame-fit` | With `.frame` on a tool page: the one-screen layout below                          |
 | `.panel`     | Output that can grow: scrolls inside itself in the one-screen layout. Make it a `section` with `tabindex="0"` (so the keyboard can scroll it) and `aria-labelledby` pointing at its band's `h2`; on a `label.field` its textarea takes the free height instead |
 
-**One screen.** On a desktop at least 1200px wide and 940px tall (a maximised browser on a 1080p screen), a tool page (`.frame-fit`) never scrolls: the frame is exactly the viewport high, the rail spans both rows so the bands start 40px under the lead, and the bands stand side by side from column 4 (two take 4 + 5 columns, three take 3 each), each `h2` on top of its column. Output that can grow sits in a `.panel`, which is as tall as its content until the column is full and then scrolls inside itself (a textarea panel takes the free height, never under 120px). Below either size the page keeps the layout above and scrolls as usual. The index page does not use it.
+**One screen.** On a desktop at least 1200px wide and 940px tall (a maximised browser on a 1080p screen), a tool page (`.frame-fit`) never scrolls: the frame is exactly the viewport high, the rail spans both rows so the bands start 40px under the lead, and the bands stand side by side from column 4 (two take 4 + 5 columns, three take 3 each), each `h2` on top of its column. Output that can grow sits in a `.panel`, which is as tall as its content until the column is full and then scrolls inside itself (a textarea panel takes the free height, never under 120px). Below either size the page keeps the layout above and scrolls as usual. The index page does not use it; it lays out like a zvondis.dev inner page instead: from 600px wide the bit art (`.art`, animated by `assets/bits.js`, copied from zvondis.dev) sits in the last third of the lead and hangs from its right edge, capped at 24vh (18vh under 1060px high), and from 1200x940 the lead stops sharing row 1 with the rail and the band starts 32px under it in columns 4 to 12, its `h2` on top of the ink rule.
 
 ## Elevation & Depth
 
@@ -270,7 +270,7 @@ Colour transitions of 150ms on links, `.button` and the file picker button, a 1p
 
 ### Don't:
 
-- Don't use the accent for anything but the focus ring.
+- Don't use the accent for anything but the focus ring and the bit art.
 - Don't add cards, shadows, icons, gradients, eyebrows or decorative dots.
 - Don't introduce a second typeface or italics for emphasis.
 - Don't colour states; say them in words and weight.
