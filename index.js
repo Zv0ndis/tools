@@ -18,7 +18,7 @@ initLang({
         subText: "Rozsah, maska a rozdělení sítě pro IPv4 i IPv6.",
         invName: "Faktura",
         invText: "Vytvoří fakturu v prohlížeči a uloží ji jako PDF.",
-        shipsText: "Hra o lodích a tipování (anglicky).",
+        shipsText: "Hra o lodích a tipování.",
     },
     en: {
         title: "Tools | zvondis.dev",

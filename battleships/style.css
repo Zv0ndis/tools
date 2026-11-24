@@ -294,7 +294,7 @@ h1 .h1-light { display: block; font-weight: 300; }
 }
 
 .rail-switches { display: flex; }
-.theme-switch {
+.theme-switch, .lang-switch {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -307,7 +307,7 @@ h1 .h1-light { display: block; font-weight: 300; }
   font-weight: 700;
   cursor: pointer;
 }
-.theme-switch:hover { text-decoration: underline; }
+.theme-switch:hover, .lang-switch:hover { text-decoration: underline; }
 body:not([data-screen="game"]) .rail-switches { position: absolute; top: 20px; right: 0; }
 /* game masthead: search sits with the other links, the theme switch at the far right after the status */
 body[data-screen="game"] .search-open { min-height: 44px; color: var(--mute); }

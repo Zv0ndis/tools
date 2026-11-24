@@ -140,15 +140,15 @@
   {
     "cs": {
       "title": "Lodě",
-      "text": "Hra o lodích a tipování (anglicky).",
+      "text": "Hra o lodích a tipování.",
       "keywords": "hra",
-      "url": "https://tools.zvondis.dev/battleships/"
+      "url": "https://tools.zvondis.dev/battleships/?lang=cs"
     },
     "en": {
       "title": "Battleships",
       "text": "A game of ships and guesses.",
       "keywords": "game",
-      "url": "https://tools.zvondis.dev/battleships/"
+      "url": "https://tools.zvondis.dev/battleships/?lang=en"
     }
   }
 ]

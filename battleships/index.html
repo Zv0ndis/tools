@@ -6,31 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta name="color-scheme" content="light dark">
-  <title>Battleships</title>
+  <title>Lodě</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <script src="theme.js"></script>
-  <link rel="stylesheet" href="style.css?v=deb142f">
+  <link rel="stylesheet" href="style.css?v=c6ffda9">
   <script src="search.js" defer></script>
   <script src="bits.js" defer></script>
-  <script src="app.js?v=deb142f" defer></script>
+  <script src="app.js?v=c6ffda9" defer></script>
 </head>
 <body>
   <header class="masthead">
     <a class="zv-mark" href="https://zvondis.dev/">Zvondis</a>
-    <nav class="site-nav rail-nav" aria-label="Pages">
+    <nav class="site-nav rail-nav" aria-label="Stránky" data-t-aria="navAria">
       <ul>
-        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/">Home</a></li>
-        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/cv">CV</a></li>
-        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/semestr">Semester</a></li>
-        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/vybaveni">Uses</a></li>
-        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/soukromi">Privacy</a></li>
-        <li><a class="nav-link zv-link" href="https://tools.zvondis.dev/">Tools</a></li>
-        <li><a class="nav-link brand" href="./" aria-current="page">Battleships</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/" data-main="home" data-t="navHome">Home</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/cv" data-main="cv" data-t="navCv">CV</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/semestr" data-main="semester" data-t="navSemester">Semester</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/vybaveni" data-main="uses" data-t="navUses">Uses</a></li>
+        <li class="site-only"><a class="nav-link" href="https://zvondis.dev/soukromi" data-main="privacy" data-t="navPrivacy">Privacy</a></li>
+        <li><a class="nav-link zv-link" href="https://tools.zvondis.dev/" data-t="navTools">Tools</a></li>
+        <li><a class="nav-link brand" href="./" aria-current="page" data-t="navShips">Battleships</a></li>
       </ul>
     </nav>
     <div class="rail-switches">
       <button type="button" class="theme-switch" data-theme-toggle hidden>Dark</button>
+      <button type="button" class="lang-switch" id="lang" lang="en">EN</button>
     </div>
     <p class="status" id="status" aria-live="polite"></p>
   </header>
@@ -39,9 +40,9 @@
     <!-- Landing -->
     <section id="landing" class="screen" hidden>
       <div class="landing-card lead-art">
-        <h1>Sink the enemy fleet <span class="h1-light">before they sink yours.</span></h1>
-        <p class="lede">Open a game, send the link to a friend, and take turns firing across a 10&times;10 chart. Ships stay hidden on the server, so nobody can peek.</p>
-        <button class="btn btn-primary" id="new-game" type="button">New game</button>
+        <h1><span data-t="h1">Sink the enemy fleet</span> <span class="h1-light" data-t="h1Light">before they sink yours.</span></h1>
+        <p class="lede" data-t="lede">Open a game, send the link to a friend, and take turns firing across a 10&times;10 chart. Ships stay hidden on the server, so nobody can peek.</p>
+        <button class="btn btn-primary" id="new-game" type="button" data-t="newGame">New game</button>
         <pre class="art" data-bits aria-hidden="true">                 <span class="s2">10</span>
                  <span class="s2">10</span>
              <span class="s2">0101101001</span>
@@ -57,21 +58,21 @@
       </div>
       <div class="bands">
         <section class="band">
-          <h2>Fleet</h2>
-          <ul class="fleet-legend" aria-label="Fleet">
-            <li><span class="hull" data-len="5"></span><span class="dock-name">Carrier</span><span class="dock-meta">5 cells</span></li>
-            <li><span class="hull" data-len="4"></span><span class="dock-name">Battleship</span><span class="dock-meta">4 cells</span></li>
-            <li><span class="hull" data-len="3"></span><span class="dock-name">Cruiser</span><span class="dock-meta">3 cells</span></li>
-            <li><span class="hull" data-len="3"></span><span class="dock-name">Submarine</span><span class="dock-meta">3 cells</span></li>
-            <li><span class="hull" data-len="2"></span><span class="dock-name">Destroyer</span><span class="dock-meta">2 cells</span></li>
+          <h2 data-t="fleet">Fleet</h2>
+          <ul class="fleet-legend" aria-label="Fleet" data-t-aria="fleet">
+            <li><span class="hull" data-len="5"></span><span class="dock-name" data-t="ship0">Carrier</span><span class="dock-meta" data-t="cells5">5 cells</span></li>
+            <li><span class="hull" data-len="4"></span><span class="dock-name" data-t="ship1">Battleship</span><span class="dock-meta" data-t="cells4">4 cells</span></li>
+            <li><span class="hull" data-len="3"></span><span class="dock-name" data-t="ship2">Cruiser</span><span class="dock-meta" data-t="cells3">3 cells</span></li>
+            <li><span class="hull" data-len="3"></span><span class="dock-name" data-t="ship3">Submarine</span><span class="dock-meta" data-t="cells3">3 cells</span></li>
+            <li><span class="hull" data-len="2"></span><span class="dock-name" data-t="ship4">Destroyer</span><span class="dock-meta" data-t="cells2">2 cells</span></li>
           </ul>
         </section>
         <section class="band">
-          <h2>Rules</h2>
+          <h2 data-t="rules">Rules</h2>
           <ol class="rules">
-            <li>Place the five ships across or down. They may not overlap or touch, not even at a corner.</li>
-            <li>Take turns firing. A hit earns another shot, a miss passes the turn.</li>
-            <li>The first to sink the whole enemy fleet wins.</li>
+            <li data-t="rule1">Place the five ships across or down. They may not overlap or touch, not even at a corner.</li>
+            <li data-t="rule2">Take turns firing. A hit earns another shot, a miss passes the turn.</li>
+            <li data-t="rule3">The first to sink the whole enemy fleet wins.</li>
           </ol>
         </section>
       </div>
@@ -83,19 +84,19 @@
         <p class="visually-hidden" id="notice-eyebrow"></p>
         <h1 id="notice-title"></h1>
         <p class="lede" id="notice-text"></p>
-        <a class="btn btn-primary" href="./" id="notice-home">Start a new game</a>
+        <a class="btn btn-primary" href="./" id="notice-home" data-t="startNew">Start a new game</a>
       </div>
     </section>
 
     <!-- Waiting for opponent -->
     <section id="waiting" class="screen" hidden>
       <div class="landing-card">
-        <h1>Waiting for your opponent</h1>
-        <p class="lede">Send this link to the person you want to play. The game starts as soon as they open it.</p>
+        <h1 data-t="waitTitle">Waiting for your opponent</h1>
+        <p class="lede" data-t="waitText">Send this link to the person you want to play. The game starts as soon as they open it.</p>
         <div class="share">
-          <label class="visually-hidden" for="share-url">Game link</label>
+          <label class="visually-hidden" for="share-url" data-t="gameLink">Game link</label>
           <input id="share-url" class="share-url" type="text" readonly>
-          <button class="btn btn-primary" id="copy" type="button">Copy link</button>
+          <button class="btn btn-primary" id="copy" type="button" data-t="copy">Copy link</button>
         </div>
       </div>
     </section>
@@ -110,25 +111,25 @@
 
       <div class="boards">
         <figure class="chart" id="my-chart">
-          <figcaption><span>Your fleet</span><span class="tally" id="my-tally"></span></figcaption>
-          <div class="board" id="my-board" role="group" aria-label="Your fleet"></div>
+          <figcaption><span data-t="yourFleet">Your fleet</span><span class="tally" id="my-tally"></span></figcaption>
+          <div class="board" id="my-board" role="group" aria-label="Your fleet" data-t-aria="yourFleet"></div>
         </figure>
 
         <figure class="chart" id="enemy-chart">
-          <figcaption><span>Enemy waters</span><span class="tally" id="enemy-tally"></span></figcaption>
-          <div class="board" id="enemy-board" role="group" aria-label="Enemy waters"></div>
+          <figcaption><span data-t="enemyWaters">Enemy waters</span><span class="tally" id="enemy-tally"></span></figcaption>
+          <div class="board" id="enemy-board" role="group" aria-label="Enemy waters" data-t-aria="enemyWaters"></div>
         </figure>
 
         <aside class="dock" id="dock">
-          <h2 class="dock-title">Fleet roster</h2>
+          <h2 class="dock-title" data-t="roster">Fleet roster</h2>
           <p class="dock-hint" id="dock-hint"></p>
           <ol class="dock-list" id="dock-list"></ol>
           <div class="dock-actions">
-            <button class="btn" id="rotate" type="button" aria-keyshortcuts="R"><span class="btn-label">Rotate</span> <kbd>R</kbd></button>
-            <button class="btn" id="undo" type="button">Undo</button>
-            <button class="btn" id="random" type="button">Random</button>
+            <button class="btn" id="rotate" type="button" aria-keyshortcuts="R"><span class="btn-label" data-t="rotate">Rotate</span> <kbd>R</kbd></button>
+            <button class="btn" id="undo" type="button" data-t="undo">Undo</button>
+            <button class="btn" id="random" type="button" data-t="random">Random</button>
           </div>
-          <button class="btn btn-primary btn-wide" id="ready" type="button">Ready</button>
+          <button class="btn btn-primary btn-wide" id="ready" type="button" data-t="ready">Ready</button>
         </aside>
       </div>
     </section>
