@@ -2,20 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://ships.zvondis.dev wss://ships.zvondis.dev; img-src 'self' data:; style-src 'self'; script-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://ships.zvondis.dev wss://ships.zvondis.dev; img-src 'self' data:; style-src 'self'; script-src 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <title>Battleships</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/archivo-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=6722725">
-  <script src="app.js?v=6722725" defer></script>
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="style.css?v=deb142f">
+  <script src="search.js" defer></script>
+  <script src="bits.js" defer></script>
+  <script src="app.js?v=deb142f" defer></script>
 </head>
 <body>
   <header class="masthead">
     <a class="zv-mark" href="https://zvondis.dev/">Zvondis</a>
-    <nav class="site-nav" aria-label="Pages">
+    <nav class="site-nav rail-nav" aria-label="Pages">
       <ul>
         <li class="site-only"><a class="nav-link" href="https://zvondis.dev/">Home</a></li>
         <li class="site-only"><a class="nav-link" href="https://zvondis.dev/cv">CV</a></li>
@@ -26,16 +29,31 @@
         <li><a class="nav-link brand" href="./" aria-current="page">Battleships</a></li>
       </ul>
     </nav>
+    <div class="rail-switches">
+      <button type="button" class="theme-switch" data-theme-toggle hidden>Dark</button>
+    </div>
     <p class="status" id="status" aria-live="polite"></p>
   </header>
 
   <main id="main">
     <!-- Landing -->
     <section id="landing" class="screen" hidden>
-      <div class="landing-card">
+      <div class="landing-card lead-art">
         <h1>Sink the enemy fleet <span class="h1-light">before they sink yours.</span></h1>
         <p class="lede">Open a game, send the link to a friend, and take turns firing across a 10&times;10 chart. Ships stay hidden on the server, so nobody can peek.</p>
         <button class="btn btn-primary" id="new-game" type="button">New game</button>
+        <pre class="art" data-bits aria-hidden="true">                 <span class="s2">10</span>
+                 <span class="s2">10</span>
+             <span class="s2">0101101001</span>
+             <span class="s2">01</span>  <span class="s2">10</span>  <span class="s2">10</span>
+       <span class="s2">11010010110100101001</span>
+       <span class="s2">01</span><span class="s1">10</span><span class="s2">10</span><span class="s1">01</span><span class="s2">01</span><span class="s1">10</span><span class="s2">10</span><span class="s1">11</span><span class="s2">0100</span>
+ <span class="s3">1011010010100101101001011010010100</span>
+  <span class="s2">10110100101101011010010110100101</span>
+   <span class="s2">001011010010110101101001011010</span>
+    <span class="s2">0101101011010010110100101001</span>
+<span class="s0">011010010110101101001011010010100101</span>
+ <span class="s0">1</span>  <span class="s0">0</span>  <span class="s0">1</span>  <span class="s0">0</span>  <span class="s0">0</span>  <span class="s0">1</span>  <span class="s0">0</span>  <span class="s0">1</span>  <span class="s0">1</span>  <span class="s0">0</span>  <span class="s0">1</span>  <span class="s0">0</span></pre>
       </div>
       <div class="bands">
         <section class="band">
