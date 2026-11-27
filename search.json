@@ -49,6 +49,18 @@
   },
   {
     "cs": {
+      "title": "Kontakt",
+      "url": "https://zvondis.dev/kontakt",
+      "text": "Napište Tomáši Zvoníčkovi zprávu přes formulář nebo e-mailem."
+    },
+    "en": {
+      "title": "Contact",
+      "url": "https://zvondis.dev/en/contact",
+      "text": "Send Tomáš Zvoníček a message through the form or by email."
+    }
+  },
+  {
+    "cs": {
       "title": "Soukromí",
       "url": "https://zvondis.dev/soukromi",
       "text": "Co tento web ukládá, co nesbírá a s kým komunikuje."
